@@ -1,0 +1,241 @@
+<!-- <p id="notice"><%= notice %></p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @student.first_name %>
+</p> -->
+<style>
+.profile-info-name{
+	width:15%;
+}	
+</style>
+
+	<div class="page-content">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<div class="hr dotted"></div>
+
+								<div>
+									<div id="user-profile-1" class="user-profile row">
+										<div class="col-xs-12 col-sm-3 center">
+											<div>
+												<span class="profile-picture">
+													<img id="avatar" class="editable img-responsive" src="/assets/male.jpg" />
+												</span>
+
+												<div class="space-4"></div>
+
+												<div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
+													<div class="inline position-relative">
+														<a href="#" class="user-title-label dropdown-toggle" data-toggle="dropdown">
+															<i class="icon-circle light-green middle"></i>
+															&nbsp;
+															<span class="white"><%= @student.first_name %></span>
+														</a>
+													</div>
+												</div>
+											</div>
+
+											<div class="space-6"></div>
+
+											<div class="profile-contact-info">
+												<div class="profile-contact-links align-left">
+													<a class="btn btn-link" href="#">
+													Admission No :	<%= @student.admission_no %>
+													</a>
+
+													<a class="btn btn-link" href="#">
+														Course : <%= @student.batch.course.course_name %>
+													</a><br>
+
+													<a class="btn btn-link" href="#">
+														Batch : <%= @student.batch.name %>
+													</a>
+												</div>
+
+											</div>
+
+										</div>
+
+										<div class="col-xs-12 col-sm-9">
+											
+											<div class="space-12"></div>
+
+											<div class="profile-user-info profile-user-info-striped">
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Name </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="username">&nbsp;<%= @student.first_name %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Course </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="country">&nbsp;<%= @student.batch.course.course_name %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Batch </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="age">&nbsp;<%= @student.batch.name %> </h4></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Admission No </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="signup">&nbsp;<%= @student.admission_no %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Admission Date </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="login">&nbsp;<%= (@student.admission_date) unless @student.admission_date.nil? %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Date of Birth </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= (@student.date_of_birth) unless @student.date_of_birth.nil? %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Blood Group </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.blood_group %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Gender </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.gender_as_text %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Nationality </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.nationality.name unless @student.nationality_id.nil? %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Language </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.language %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Religion </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.religion %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Address </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.address_line1%><%= ', ' unless @student.address_line1.blank? %><%=  @student.address_line2 %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> City </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.city %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> State </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.state %></span>
+													</div>
+												</div>
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Pincode </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.pin_code %></span>
+													</div>
+												</div>
+
+												<% if @student.country_id.nil? %>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Country </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.country.name  %></span>
+													</div>
+												</div>
+												<% end %>
+
+												
+												<% if @student.phone1? %>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Phone </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.phone1 %></span>
+													</div>
+												</div>
+												<% end %>
+
+												
+												<% if @student.phone1? %>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Phone 2 </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.phone2 %></span>
+													</div>
+												</div>
+												<% end %>
+
+												
+												<% if @student.phone1? %>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Email </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about">&nbsp;<%= @student.email %></span>
+													</div>
+												</div>
+												<% end %>
+
+
+											</div>
+
+										
+										</div>
+									</div>
+								</div>
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				

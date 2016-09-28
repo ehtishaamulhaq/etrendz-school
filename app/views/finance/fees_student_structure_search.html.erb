@@ -1,0 +1,45 @@
+<div id="content-header" style="padding-left: 20px;">
+  <%#= image_tag("show_finance.png") %>
+  <h1>
+    <%= t('finance_text') %>
+  </h1>
+  <h3>
+    <%= t('fees_structure') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<div id="page-yield" style="padding-left: 20px;">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div id="search_box_bg">
+    <form name="<%= :search_form %>" style="display:inline;">
+      <label for="user_name">
+        <%= t('search_text') %>
+        <%= image_tag("loader.gif", align: :absmiddle, border: 0, id: :loader, style: "display: none;") %>
+      </label>
+      <div id="search_textbox">
+        <%= text_field_tag("query", params['query'], autocomplete: :off) %>
+        <br/>
+      </div>
+    </form>
+  </div><br>
+  <div id="information"></div>
+</div>
+<script>
+
+$( "#query" ).keyup(function( event ) {
+// alert(this.value)
+  $('#information').html('<br/><br/><center><img src="/assets/loader.gif"></center>');
+  $.get('/finance/fees_student_structure_search_logic?query='+this.value, function(data){
+      $('#information').html(data);
+  });
+  event.preventDefault();
+  return false;
+});
+
+</script>

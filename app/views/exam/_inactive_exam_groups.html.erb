@@ -1,0 +1,13 @@
+<%#= javascript_include_tag :application %>
+<div class="label-field-pair">
+  <label for="student_course">
+    <%= t('select_exam_group') %>
+    :
+    <%= image_tag("loader.gif",:align => "absmiddle",:border => 0,:id => "loader2", :style =>"display: none;" ) %>
+  </label>
+  <div class="text-input-bg">
+    <%= select :course, :exam_group_id, @exam_groups.map {|b| [b.name, b.id]}, {:prompt => "Select an Exam Group"}, {:onChange => "onChangeRequest(this, '#{url_for(action: :previous_exam_marks, exam_group_id: 'paramid')}')"} %>
+  </div>
+</div>
+<div id="previous_exam_marks"></div>
+<div class="extender"></div>

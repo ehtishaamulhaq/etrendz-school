@@ -1,0 +1,14 @@
+<div class="label-field-pair">
+  <div class="row">
+  <div class="col-md-2">
+  <label>
+    <%= t('select_mode') %>
+  </label>
+  </div>
+  <div class="col-md-2">
+  <div class="text-input-bg">
+    <%= select :mode, :id, [[t('monthly'),"Monthly"], [t('overall'),"Overall"]], { :prompt => t('select_mode')}, { :onchange => "onChangeRequest(this, '#{url_for(action: :show_mode, mode: 'paramid', batch_id: @batch.id, subject_id: @subject)}')"} %>
+  </div>
+  </div>
+  </div>
+</div><br>

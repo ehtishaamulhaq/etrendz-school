@@ -1,0 +1,12 @@
+<% if @config.config_value == 'Daily' %>
+  $("#mode").html("<%= escape_javascript(render 'mode') %>")
+  $("#month").html("")
+<% else %>
+  <% if @subject_id %>
+    $("#mode").html("#{escape_javascript ''}")
+    $("#month").html("")
+  <% else %>
+    $("#mode").html("<%= escape_javascript(render 'mode') %>")
+    $("#month").html("")
+  <% end %>
+<% end %>

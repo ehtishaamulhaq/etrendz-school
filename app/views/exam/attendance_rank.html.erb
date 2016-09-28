@@ -1,0 +1,80 @@
+<div id="content-header">
+  <%#= image_tag("examination/show_exam.png") %>
+  <h1>
+    <%= t('exams_text') %>
+  </h1>
+  <h3>
+    <%= t('student_ranking_per_attendance') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<div id="page-yield">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="bread_crumb">
+    <%= link_to t('exam_text'), exam_index_path %> »
+    <%= link_to t('report_center'), report_center_exam_index_path %> »
+    <%= t('student_ranking_per_attendance') %>
+  </div>
+  <div class="box">
+    <%= form_for :attendance_rank, url: student_attendance_rank_exam_index_path do |x| %>
+      <div class="label-field-pair">
+        <label for="student_course">
+          <%= t('select_a_batch') %>
+          :
+        </label>
+        <div class="text-input-bg">
+          <%= select :attendance_rank, :batch_id, Batch.active.map {|b| [b.full_name, b.id]}, {prompt: ('select_a_batch') } %>
+        </div>
+      </div>
+      <div class="label-field-pair">
+        <label for="student_course">
+          <%= t('select_start_date') %>
+          \:
+        </label><br>
+        <div class="col-md-3">
+        <div class="input-group">
+          <%= x.text_field :started_on, class: "started_on form-control" %>
+          <span class="input-group-addon">
+            <i class="ace-icon fa fa-calendar bigger-110"></i>
+          </span>
+        </div>
+        </div>
+      </div><br><br>
+      <div class="label-field-pair">
+        <label for="student_course">
+          <%= t('select_end_date') %>
+          :
+        </label><br>
+        <div class="col-md-3">
+        <div class="input-group">
+          <%= x.text_field :ended_on, class: "ended_on form-control" %>
+          <span class="input-group-addon">
+            <i class="ace-icon fa fa-calendar bigger-110"></i>
+          </span>
+        </div>
+        </div>
+      </div><br><br>
+      <%= submit_tag "", value: " #{t('view')}", class: "btn btn-purple" %>
+    <% end %>
+    <div class="extender"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $( ".started_on" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false
+  });
+  $( ".ended_on" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false
+  });
+</script>

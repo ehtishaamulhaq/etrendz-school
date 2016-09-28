@@ -1,0 +1,9 @@
+
+    <% @attendances.each do |attendance| %>
+      <tr>
+        <td><%= link_to attendance.month_date, attendance %></td>
+
+	    <td><%= link_to "", edit_attendance_path(attendance), remote: true, class: "icon-pencil bigger-130 green" %></td>
+	    <td><%= link_to "", attendance_delete_path(attendance), remote: true, class: "icon-trash bigger-130 red" %></td>
+      </tr>
+    <% end %>

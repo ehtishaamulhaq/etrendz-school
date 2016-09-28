@@ -1,0 +1,8 @@
+<div class="label-field-pair">
+  <label for="subject_name">
+    <%= t('subject') %>
+  </label>
+  <div class="text-input-bg">
+    <%= select :subject_assignment, :subject_id, @subjects.map { |s| [s.name, s.id] },{ prompt: t('select_a_subject')},{ onChange: "onChangeRequest(this,  '#{url_for(action: :select_department, subject_id: 'paramid')}')"}  %>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="container">
+   <%= link_to "New Attendance", new_attendance_path, remote: true, class: "btn btn-pink pull-right" %>
+  <div class="new-attendance"></div>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <td></td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody class="attendance-index">
+      <%= render "index" %>
+    </tbody>
+  </table>
+</div>
+<div id="attendance-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-attendance-modal" class="modal-content"></div>
+  </div>
+</div>
+
+

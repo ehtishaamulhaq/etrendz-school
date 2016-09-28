@@ -1,0 +1,69 @@
+<br/>
+	
+	<h3>Purchase Report From <%= @from.strftime('%d %b, %Y') %> - <%= @to.strftime('%d %b, %Y') %></h3>
+<h4>Print <%= link_to 'Report', {:controller => 'purchases', :action => 'purchase_report', :format => 'pdf', :from => @from, :to => @to, :report_type => params[:report_type]} %></h4>
+<table class='table' style="width:80%">
+  <tr style = 'background:#438EB9;color:#ffffff'>
+    <th>Date</th>
+    <th>Supplier</th>
+    <th>Invoice</th>
+    <th>Paid</th>
+    <th>Product</th>
+    <th>Qty</th>
+    <th style="text-align:right">Price</th>
+    <th style="text-align:right">Amount</th>
+    <th>Action</th>
+  </tr>
+
+  <% 
+  @purchases.each do |purchase| 
+  total_sum = 0 
+  %>
+  <tr class="success">
+    <td><%= purchase.purchase_date.strftime('%d %b') %></td>
+    <td><%= purchase.supplier.name if purchase.supplier %></td>
+    <td><%= purchase.invoice %></td>
+    <td><%= purchase.paid ? "Yes" : "No" %></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+    <td><%= link_to 'Show', purchase %></td>
+  </tr>
+	
+	<% purchase.purchase_products.each do |pp| %>
+	<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+    <td><%= pp.product.name %></td>
+    <td><%= pp.qty %></td>
+	<% sum = pp.cprice * pp.qty
+		
+		total_sum += sum %>
+    <td style="text-align:right"><%= pp.cprice.round(2) %></td>
+    <td style="text-align:right"><%= sum.round(2) %></td>
+	</tr>
+	<% end %>
+<tr style="font-weight:bold;color:#431E29">
+<td>Total</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><%= purchase.purchase_products.sum(:qty) %></td>
+<td></td>
+<%@total_purchase += total_sum %>
+<td style="text-align:right"><%= total_sum.round(2) %></td>
+</tr>
+<% end %>
+</table>
+
+	<% if (params[:report_type] == "ALL") %>
+		<h3 class='btn btn-pink' style='position:fixed;top:157px;right:50px;'>Total Purchase (CB): Rs. <%= @total_cb_purchase.round(2) if @total_cb_purchase %> </h3>
+		<h3 class='btn btn-inverse' style='position:fixed;top:207px;right:50px;'>Total Purchase (CD) : Rs. <%= @total_cd_purchase.round(2) if @total_cd_purchase %> </h3>
+	<% end %>
+	<h3 class='btn btn-pink' style='position:fixed;top:107px;right:50px;'>Total Purchase <%="#{('(' + params[:report_type]+ ')') if (params[:report_type] != 'CBP')}"%>: Rs. <%= @total_purchase.round(2) if @total_purchase %> </h3>
+<br />
+

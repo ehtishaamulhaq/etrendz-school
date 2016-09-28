@@ -1,0 +1,90 @@
+<div id="content-header">
+  <%= image_tag("examination/show_exam.png") %>
+  <h1>
+    <%= t('exams_text') %>
+  </h1>
+  <h3>
+    <%= t('grouped_exam_reports') %>
+  </h3>
+  <div id="app-back-button">
+    <%= back_button %>
+  </div>
+</div>
+<div id="inner-tab-menu">
+  <ul>
+    <% unless @previous_batch == 1 %>
+      <% if permitted_to? :combined_grouped_exam_report_pdf,:exam %>
+        <li>
+          <%= link_to "#{t('pdf_report')}", {:controller => "exam", :action => "combined_grouped_exam_report_pdf", :type => @type, :batch => @batch.id},:target => '_blank'  %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+<div id="page-yield">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <h4 align="center">
+    <%= @batch.name %>
+    <%= @batch.course.full_name%>
+  </h4>
+  <% unless @previous_batch == 1 %>
+    <div id="student_list">
+      <%= render  :partial=>"student_list" %>
+    </div>
+  <% end %>
+  <% unless @previous_batch == 1 %>
+    <div class="current_batch">
+      <div id="grouped_exam_report">
+        <%= render :partial=>'grouped_exam_report' %>
+      </div>
+    </div>
+  <% else %>
+    <div class="previous_batch">
+      <div id="grouped_exam_report">
+        <%= render :partial=>'grouped_exam_report' %>
+      </div>
+    </div>
+  <% end %>
+</div>
+  <div class="box"></div>  <!-- Added by Ehtisham  -->
+<script>
+  
+$(document).ready(function(){
+
+  $('.student-link').on( "click", function() {
+    my_id = $( this ).attr('id');
+    $('.active-link').removeClass('active-link');
+    $( this ).addClass('active-link');
+
+
+    $.get('/exam/generated_report4?student=' + my_id + '&type=<%= @type %>' , function(mydata){
+      $('.box').html(mydata);
+    });
+
+
+  });
+});
+  // function set_active(){
+  //   $('.active-link').each(function(e){
+  //     e.removeClassName('active-link');
+  //   });
+  //   this.addClassName('active-link')
+  // }
+  // function draw_report(){
+  //   Element.show('loader')
+  //   new Ajax.Request('/exam/generated_report4',
+  //   {asynchronous:true, evalScripts:true,
+  //     parameters:'student='+this.id+'&type=#{@type}',onSuccess:function(request){Element.hide('loader')}
+  //   })
+  // }
+  // document.observe("dom:loaded", function() {
+  //   $('.student-link').invoke('observe','click',draw_report);
+  //   $('.student-link').invoke('observe','click',set_active);
+  // });
+
+
+</script>

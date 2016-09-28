@@ -1,0 +1,35 @@
+<%= javascript_include_tag :application %>
+
+<div id="inner-tab-menu">
+  <ul>
+    <!-- <li><haml_loud> link_to t(&#39;advanced&#39;), :controller=&gt;&quot;student_attendance&quot;, :action=&gt;&quot;advance_search&quot; </haml_loud></li>
+    -->
+  </ul>
+</div>
+<div id="page-yield" style="padding-left: 20px;">
+  <div class="label-field-pair">
+  <div class="row">
+  <div class="col-md-2">
+    <label>
+      <%= t('select_a_batch') %>:
+    </label>
+    </div>
+    <div class="col-md-2">
+    <div class="text-input-bg">
+      <% if @config.config_value == 'Daily' %>
+        <%= select :batch, :id, @batches.map {|b| [b.full_name, b.id] }, {:prompt => t('select_a_batch')}, {:onchange => "onChangeRequest(this, '#{url_for(action: :mode, batch_id: 'paramid', subject_id: '')}')"} %>
+      <% else %>
+        <%= select :batch, :id, @batches.map {|b| [b.full_name, b.id] }, { :prompt => t('select_a_batch')}, { :onchange => "onChangeRequest(this, '#{url_for(action: :subject, batch_id: 'paramid')}')"} %>
+      <% end %>
+      <%= image_tag("loader.gif", align: :absmiddle, border: 0, id: :loader, style: "display: none;" ) %>
+      <div class="extender"></div>
+    </div>
+    </div>
+    </div><br>
+  </div>
+  <div id="subject"></div>
+  <div id="mode"></div>
+  <div id="month"></div>
+  <div id="year"></div>
+  <div id="report"></div>
+</div>

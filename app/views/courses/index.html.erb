@@ -1,0 +1,19 @@
+
+  <div class="box" style="padding-left:20px;padding-top:20px;">
+
+    <div class="row">
+    <div class="col-md-6">
+    <div class="link-box">
+      <div class="link-heading"><%= link_to "#{t('manage_course')}" ,{:action=>'manage_course'}, style: "font-weight:bold;font-size:18px;" %> </div>
+      <div class="link-descr"><%= t('manage_course_and_create_batches') %></div>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="link-box">
+      <div class="link-heading"><%= link_to "#{t('manage_batch')}" ,{:action=>'manage_batches'}, style: "font-weight:bold;font-size:18px;" %>  </div>
+      <div class="link-descr"><%= t('manage_active_batches') %></div>
+    </div>
+    </div>
+  </div>
+    <div class="extender"></div>
+  </div>

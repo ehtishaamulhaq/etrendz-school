@@ -1,0 +1,10 @@
+<div id="batch">
+  <div class="label-field-pair">
+    <label>
+      <%= t('select_a_fees_category') %> :
+    </label>
+    <div class="text-input-bg">
+      <%= select("id", :id, @fee_categories.map { |f| [f.name, f.id] }, { prompt: t('select_a_fees_category')}, { onChange: "onChangeRequest(this, '#{url_for(action: :show_fee_discounts, id: 'paramid')}')"}) %>
+    </div>
+  </div>
+</div>

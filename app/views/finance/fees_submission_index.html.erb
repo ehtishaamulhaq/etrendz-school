@@ -1,0 +1,42 @@
+<div id="content-header" style="padding-left: 20px;">
+  <h1>
+    <%= t('fees_submission') %>
+  </h1>
+  <h3>
+    <%= t('student_fees_submission') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<div id="page-yield" style="padding-left: 20px;">
+  <div class="box">
+    <% unless flash[:notice].nil? %>
+      <p class="flash-msg">
+        <%= flash[:notice] %>
+      </p>
+    <% end %>
+    <div class="row">
+    <div class="col-md-6">
+    <div class="link-box">
+      <div class="link-heading">
+        <%= link_to "#{t('fees_submission_by_course')}", {:action => "fees_submission_batch"}, style: "font-weight:bold;font-size:18px;" %>
+      </div>
+      <div class="link-descr">
+        <%= t('fees_submit_by_each_course') %>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="link-box">
+      <div class="link-heading">
+        <%= link_to "#{t('fees_submit_for_student')}", {:action => "fees_student_search"}, style: "font-weight:bold;font-size:18px;" %>
+      </div>
+      <div class="link-descr">
+        <%= t('submitting_fees_by_search') %>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>

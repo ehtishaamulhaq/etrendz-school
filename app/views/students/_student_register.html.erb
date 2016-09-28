@@ -1,0 +1,34 @@
+
+<div class="center"><a  href="" class="prev_month">◄</a><h2 class='inline'><%= @today.strftime("%B %Y") %></h2><a href="" class="next_month">►</a></div>
+<div class="student_table">
+  <%= render 'student_table' %>
+</div>
+
+<style type="text/css">
+.prev_month, .next_month {
+  margin: 10px;
+  font-size: 200%;
+
+}
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.prev_month').click(function(event){
+    $.get("/students/student_register/<%= params[:id] %>?date=<%= @today - 1.month %>" , function(mydata){
+      $('.student_list').empty().append(mydata);
+      event.preventDefault();
+    //  alert(typeof(mydata));
+    });
+      event.preventDefault();
+   });
+    $('.next_month').click(function(event){
+    $.get("/students/student_register/<%= params[:id] %>?date=<%= @today + 1.month %>" , function(mydata){
+      $('.student_list').empty().append(mydata);
+      event.preventDefault();
+    //  alert(typeof(mydata));
+    });
+      event.preventDefault();
+   });
+  })
+</script>

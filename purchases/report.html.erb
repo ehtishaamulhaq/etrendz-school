@@ -1,0 +1,82 @@
+
+<form id="purchase_report_form" class="form-search" action="/form_submitted">
+				<%= hidden_field_tag "report_type", 'CBP' %>
+		
+		<div class="col-xs-3 col-sm-3">
+			<label for="id-date-range-picker-1">Start Date</label>
+			<div class="input-group">
+				<span class="input-group-addon">
+					<i class="icon-calendar bigger-110"></i>
+				</span>
+				<input id='from_date' class="form-control date-picker" id="from_date" type="text" data-date-format="dd-mm-yyyy" />
+			</div>
+		</div>
+	
+		<div class="col-xs-3 col-sm-3">
+	<label for="id-date-range-picker-1">End Date</label>
+			<div class="input-group">
+				<input id='to_date' class="form-control date-picker" id="to_date" type="text" data-date-format="dd-mm-yyyy" />
+				<span class="input-group-addon">
+					<i class="icon-calendar bigger-110"></i>
+				</span>
+			</div>
+		</div>
+		
+		<div class="col-xs-3 col-sm-3">
+	<label for="id-date-range-picker-1">&nbsp;</label>
+			<br/>
+			<button id="purchase_report_btn" class="btn btn-pink btn-sm report" type="button">
+				<i class="icon-ok bigger-110"></i>
+				Submit
+			</button>
+		</div>
+		<input type="submit" style="display:none" />
+</form>
+	
+  <div class="purchase_report" style="clear:both"></div>												
+<script>
+$( "#purchase_report_btn" ).click(function() {
+$( "#purchase_report_form" ).submit();
+});
+
+$( "form" ).submit(function( event ) {
+	$('.purchase_report').html('<br/><br/><center><img src="/assets/loader.gif"></center>');
+	
+	$.get('/purchase_report?from='+$("#from_date" ).val()+'&to='+$("#to_date" ).val()+'&report_type='+$("#report_type" ).val(), function(data){
+		  $('.purchase_report').empty().append(data);
+	});
+	event.preventDefault();
+});
+</script>
+
+<script>
+
+function doc_keyUp(e) {
+
+    // this would test for whichever key is 40 and the ctrl key at the same time
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 122)) {
+        if($("#report_type").val() == 'CBP'){
+			$("#report_type").val('CDP'); 
+//				$('.btn').toggleClass( 'btn-info' )
+				$('.report').removeClass( 'btn-pink' )
+				$('.report').addClass( 'btn-inverse' )
+			
+		}
+		else if ($("#report_type").val() == 'CDP'){
+			$("#report_type").val('ALL'); 
+	//			$('.btn').toggleClass( 'btn-info' )
+				$('.report').removeClass( 'btn-inverse' )
+				$('.report').addClass( 'btn-info' )
+		}
+		else{
+			$("#report_type").val('CBP'); 
+		//		$('.btn').toggleClass( 'btn-info' )
+				$('.report').removeClass( 'btn-info' )
+				$('.report').addClass( 'btn-pink' )
+		}
+		
+    }
+}
+// register the handler 
+document.addEventListener('keyup', doc_keyUp, false);
+</script>

@@ -1,0 +1,39 @@
+<div id="content-header">
+  <%#= image_tag("examination/show_exam.png") %>
+  <h1>
+    <%= t('exams_text') %>
+  </h1>
+  <h3>
+    <%= t('student_ranking_per_subject') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<div id="page-yield">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="bread_crumb">
+    <%= link_to t('exam_text'), exam_index_path %> »
+    <%= link_to t('report_center'), report_center_exam_index_path %>  »
+    <%= t('student_ranking_per_subject') %>
+  </div>
+  <div class="box">
+    <%= form_for :rank_report, url: student_subject_rank_exam_index_path do |x| %>
+      <div class="text-input-bg">
+        <%= select :rank_report, :batch_id,@batches.map {|b| [b.full_name, b.id]},{:prompt => t('select_a_batch')}, {:onChange => "onChangeRequest(this, '#{url_for(action: :list_batch_subjects, batch_id: 'paramid')}')"} %>
+      </div><br>
+      <div>
+        <div class="text-input-bg" id="subject-select">
+          <%= select :rank_report, :subject_id, @subjects.map{|subject| [subject.name,subject.id]},prompt: t('select_subject') %>
+        </div><br>
+        <%= image_tag("loader.gif", align: :absmiddle, border: 0, id: :loader, style: "display: none;" ) %>
+      </div>
+      <%= submit_tag "", value: " #{t('view')}", class: "btn btn-primary" %>
+    <% end %>
+    <div class="extender"></div>
+  </div>
+</div>

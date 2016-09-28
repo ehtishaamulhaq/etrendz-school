@@ -1,0 +1,10 @@
+$("ul.errors").html("")
+<% if @finance_category.errors.any? %>
+  <% @finance_category.errors.full_messages.each do |message| %>
+    $("ul.errors").append($("<li />").html("<%= message.html_safe %>"))
+  <% end %>
+<% else %>
+  $('#flash_box').html("<p class='flash-msg'>#{t('finance.flash_msg35')}</p>")
+  $("#category-list").html("<%= escape_javascript(render partial: 'category_list') %>")
+  $("#master-category-modal").modal("hide")
+<% end %>

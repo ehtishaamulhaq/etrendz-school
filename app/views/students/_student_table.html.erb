@@ -1,0 +1,34 @@
+<style>
+
+th:hover {
+  background: #eee;
+}
+</style>
+
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>Name</th>
+   <% (@today.beginning_of_month..@today.end_of_month).each do |day| %>
+      <th><%= day.day %></th>
+    <% end %>
+  </tr>
+  <% @students.each do |student| %>
+
+  <tr>
+    <th><%= student.full_name %></th>
+    <% (@today.beginning_of_month..@today.end_of_month).each do |day| %>
+      <td class="info" style="<%= 'background: #efefef;' if day == Date.today %>" >
+      <span id="<%= student.id.to_s + '_' + day.day.to_s %>">
+        <%= student.attendances.pluck(:month_date).include?(day) ? "<a href='#' class='absent'>X</a>".html_safe : link_to("O".html_safe, "/attendances/new?student_id=#{student.id}&month_date=#{day}", remote: true, title: student.full_name, style: 'text-decoration:none;color: #fff;text-align:center') %>
+        </span>
+      </td>
+    <% end %>
+  </tr>
+  <% end %>
+</table>
+
+<div id="attendance-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-attendance-modal" class="modal-content"></div>
+  </div>
+</div>

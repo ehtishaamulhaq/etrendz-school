@@ -1,0 +1,54 @@
+<form id="attendance-form" class="form-search" action="/form_submitted">
+
+
+      <div class="col-sm-2"><label>Batch: </label></div>
+      <div class="col-sm-2"><%= select_tag "batch_id", options_from_collection_for_select(Batch.active, "id", "full_name"), include_blank: true %></div><br><br>
+
+            <div class="col-sm-2"><label>Report Type: </label></div>
+       <div class="text-input-bg">
+          <%= select_tag :report_type, options_for_select(["Overall", "Monthly"]),{:prompt=>"#{t('select')}"}%>
+        </div><br>
+        <div id="mymonth" style="display:none;">
+            <div class="col-sm-2"><label>Select Month: </label></div>
+     <div class="text-input-bg">
+          <%= select_tag :month, options_for_select([[t('jan'),'01'], [t('feb'),'02'], [t('mar'),'03'], [t('apr'),'04'], [t('may'),'05'], [t('jun'),'06'], [t('jul'),'07'], [t('aug'),'08'], [t('sep'),'09'], [t('oct'),'10'], [t('nov'),'11'], [t('dec'),'12']]),{:prompt=>"#{t('select')}"}%>
+          <%= select_tag :year, options_for_select([[@year-1], [@year], [@year+1]]),{:prompt=>"#{t('select')}"}%>
+        </div>
+
+        <br>
+      </div>
+
+      <button id="submit_btn" class="btn btn-pink btn-sm report" type="button">
+        <i class="icon-ok bigger-110"></i>
+        Submit
+      </button>
+    <input type="submit" style="display:none" />
+</form>
+
+  <div class="attendance_report" style="clear:both"></div>
+<script>
+$(document).ready(function(){
+  $( "#submit_btn" ).click(function() {
+  $( "#attendance-form" ).submit();
+  });
+   $('#report_type').change(function(){
+    if ((this.value) == "Monthly"){
+      $("#mymonth").show();
+    }
+    else{
+      $("#mymonth").hide();
+    }
+  });
+  $( "form" ).submit(function( event ) {
+    $('.attendance_report').html('<br/><br/><center><img src="/assets/loader.gif"></center>');
+    $.get('/attendance_report?batch='+$("#batch_id" ).val()+'&report_type='+$("#report_type" ).val()+'&month='+$("#month" ).val()+'&year='+$("#year" ).val(), function(data){
+        $('.attendance_report').html(data);
+    });
+    event.preventDefault();
+  });
+});
+</script>
+
+
+
+

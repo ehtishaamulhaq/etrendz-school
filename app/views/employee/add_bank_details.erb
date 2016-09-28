@@ -1,0 +1,69 @@
+<div id="content-header">
+  <%= image_tag("HR/show_hr.png") %>
+  <h1>
+    <%= t('employee_settings') %>
+  </h1>
+  <h3>
+    <%= t('add_bank_details') %>
+  </h3>
+  <div id="app-back-button">
+    <%= back_button %>
+  </div>
+</div>
+<div id="page-yield">
+  <div class="box">
+    <div class="bread_crumb">
+      <%= link_to "#{t('hr_text')}", :controller => "employee",:action => "hr" %>
+      \#{link_to "#{t('hr_setting')}", :controller => "employee",:action => "settings"} 
+      \#{t('add_bank_details')}
+    </div>
+    <% unless flash[:warn_notice].nil? %>
+      <div id="errorExplanation1">
+        <ul>
+          <li>
+            <%= flash[:warn_notice] %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+    <% unless flash[:notice].nil? %>
+      <p class="flash-msg">
+        <%= flash[:notice] %>
+      </p>
+    <% end %>
+    <%= form_for :bank_field do |c| %>
+      <%= error_messages_for 'bank_field' %>
+      <div id="form-content">
+        <div class="label-field-pair">
+          <label for="category_name">
+            <%= t('name') %>
+          </label>
+          <div class="text-input-bg">
+            <%= c.text_field :name %>
+          </div>
+        </div>
+        <div class="label-checkbox-pair">
+          <label class="status" for="status">
+            <%= t('status') %>
+          </label>
+          <div id="radio-buttons">
+            <%= c.radio_button  "status", "true", :checked => "checked" %>
+            <label class="label_for_status" for="add_grade_status_true">
+              <%= t('active') %>
+            </label>
+            <%= c.radio_button  "status", "false" %>
+            <label class="label_for_status" for="add_grade_status_false">
+              <%= t('inactive') %>
+            </label>
+          </div>
+        </div>
+        <div id="submit-button">
+          <%= submit_tag(" #{t('create_text')}") %>
+        </div>
+      </div>
+    <% end %>
+    <div id="category-list">
+      <%= render :partial => "bank_fields" %>
+    </div>
+  </div>
+</div>

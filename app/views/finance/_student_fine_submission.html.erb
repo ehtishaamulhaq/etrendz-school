@@ -1,0 +1,14 @@
+<% if @due_date.to_date < Date.today %>
+  <%= form_for :fine, :url => {:action => 'update_student_fine_ajax' }, remote: true do |form| %>
+    <div class="fine_info">
+
+          <%= t('due_date_has_been_exceeded') %>
+      <div class="inline pull-right">
+          <%= form.text_field :fee, :value=>'' %>
+        <%= form.hidden_field :student, :value => @student.id %>
+        <%= form.hidden_field :date, :value => @date.id %>
+        <%= submit_tag "#{t('add_fine')}",:class=>'btn btn-primary btn-sm' %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

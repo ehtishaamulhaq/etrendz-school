@@ -1,0 +1,10 @@
+<br>
+<h3>Active Batches</h3>
+<table class="table table-striped">
+
+    <% @batch.each do |batch| %>
+      <td class="list<%=cycle('odd', 'even')%>">
+        <div class="category-name"><%= link_to batch.full_name, [batch.course, batch] %></div>
+      </td>
+     <% end %>
+</table>

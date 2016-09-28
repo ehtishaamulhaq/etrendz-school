@@ -1,0 +1,41 @@
+<div id="content-header" style="padding-left: 20px;">
+  <%#= image_tag("show_settings.png") %>
+  <h1>
+    <%= t('course_text') %>
+  </h1>
+  <h3>
+    <%= t('manage_batch') %>
+  </h3>
+  <!-- <div id="app-back-button">
+    <%= back_button %>
+  </div> -->
+</div>
+<div id="inner-tab-menu">
+    <% if permitted_to? :index ,:grading_levels %>
+        <%= link_to t('grading_system'), grading_levels_path, :class => "label label-lg label-pink arrowed-right" %>
+    <% end %>
+      <%= link_to t('batch_transfer'), {controller: :batch_transfers}, class: "label label-lg label-pink arrowed-in arrowed-right" %>
+</div><br>
+
+<span>Select Course: </span>
+
+<%= select_tag "course", options_from_collection_for_select(@courses, "id", "full_name"), include_blank: true  %>
+<br>
+
+<div id="students"> </div>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+   $('#course').change(function(){
+
+    $.post("/courses/update_batch?course_name=" + this.value, function(mydata){
+      $('#students').html(mydata);
+    });
+    return false;
+
+   });
+  });
+</script>

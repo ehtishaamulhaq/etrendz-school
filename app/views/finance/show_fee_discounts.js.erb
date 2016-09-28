@@ -1,0 +1,2 @@
+// jQuery("#discount-box").html('#{escape_javascript( render "show_fee_discounts")}')
+$("#discount-box").html("<%= escape_javascript(render partial: 'show_fee_discounts') %>")

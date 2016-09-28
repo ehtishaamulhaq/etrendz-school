@@ -1,0 +1,39 @@
+
+<div id="inner-tab-menu">
+  <ul>
+    <li><%= link_to "#{t('new_text')}", new_course_batch_path(@course) %> </li>
+    <li><%= link_to "Group Batches", {:controller=>"courses", :action=>"grouped_batches", :id=>@course.id} %> </li>
+    <% if permitted_to? :edit, :course %>
+      <li><%= link_to "#{t('edit_text')}", edit_course_path(@course) if permitted_to? :edit, :course %></li>
+    <%  end %>
+    <% if permitted_to? :destroy, :course %>
+      <li><%= link_to("#{t('delete_text')}", course_path(@course), :method => 'delete', :confirm => "#{t('delete_confirm_msg')}") %></li>
+    <%  end %>
+
+    <% if permitted_to? :assign_subject_amount, :courses %>
+      <li><%= link_to "#{t('assign_subject_amount')}", assign_subject_amount_courses_path(:id => @course.id) %></li>
+    <% end %>
+  </ul>
+</div>
+<p>
+  <strong>Course name:</strong>
+  <%= @course.course_name %>
+</p>
+
+<p>
+  <strong>Section name:</strong>
+  <%= @course.section_name %>
+</p>
+
+<table class="table table-striped">
+  <tr><td>Batch</td><td colspan="2">Action</td></tr>
+
+      <% @batches.each do |batch| %>
+        <tr class="list<%=cycle('odd', 'even')%>">
+        <td><%= link_to batch.full_name, [@course, batch] %></td>
+        <td><%= link_to "#{t('edit_text')}", edit_course_batch_path(@course, batch) if permitted_to? :edit, :batches %>   <%= link_to("#{t('delete_text')}", [@course, batch], :method => 'delete', :confirm => "#{t('delete_confirm_msg')}")  if permitted_to? :destroy, :batches %></td>
+
+        </tr>
+      <% end %>
+</table>
+

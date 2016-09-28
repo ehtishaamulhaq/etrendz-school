@@ -1,0 +1,34 @@
+<% c = 'even' %>
+<% @fixed_categories.each do |cat| %>
+  <div class="container<%= cycle('odd', 'even') %>">
+    <div class="dd-handle">
+      <%= cat.name %>
+    </div>
+  </div>
+<% end %>
+<% @other_categories.each do |cat| %>
+  <div class="container<%= cycle('odd', 'even') %>">
+    <div class="dd-handle">
+      <%= cat.name %>
+    </div>
+    <div class="options">
+      <div class="edit">
+        <%#= link_to t('edit_text'), url_for(action: :category_edit, id: cat.id), remote: true %>
+      </div>
+      <div class="edit">
+        <% transaction = FinanceTransaction.where(category_id: cat.id) %>
+        <% if transaction.blank? %>
+          <%= link_to t('delete_text'), {action: :category_delete, id: cat.id}, remote: true, confirm: t('are_you_sure_to_delete'), method: :DELETE %>
+        <% else %>
+          <%#= link_to t('delete_text'), {action: '', id: "" }, remote: true %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<!-- <div id="modal-box" style="display:none;"></div> -->
+<div id="master-category-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-master-category-modal" class="modal-content"></div>
+  </div>
+</div>

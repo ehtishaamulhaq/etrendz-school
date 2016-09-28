@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @news.title %>
+</p>
+
+    <div id="news_content">
+      <%= sanitize @news.content , :tags => %w[b i a h1 h2 h3 u li ol strike p img font span sup sub tr td table th tbody thead strong em], :attributes => %w[href src style border cellspacing cellpadding]%>
+    </div>
+
+<p>
+  <strong>Author:</strong>
+  <%= @news.author.full_name %>
+</p>
+
+<%= link_to 'Edit', edit_news_path(@news), class: 'brn btn-warning btn-sm' %> 
+<%= link_to 'Delete', @news, method: :delete, data: { confirm: 'Are you sure?' }, class: 'brn btn-danger btn-sm' %></td>

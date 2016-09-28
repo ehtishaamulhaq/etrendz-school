@@ -1,0 +1,40 @@
+<div id="content-header">
+  <%#= image_tag("examination/show_exam.png") %>
+  <h1>
+    <%= t('exams_text') %>
+  </h1>
+  <h3>
+    <%= t('student_ranking_per_course') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<div id="page-yield">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="bread_crumb">
+    <%= link_to t('exam_text'), exam_index_path %> »
+   <%= link_to t('report_center'), report_center_exam_index_path %> »
+   <%= t('student_ranking_per_course') %>
+  </div>
+  <div class="box">
+    <%= form_for :course_rank, url: student_course_rank_exam_index_path do |x| %>
+      <div class="label-field-pair">
+        <label for="student_course">
+          <%= t('select_a_course') %>
+          \:
+        </label>
+        <div class="text-input-bg">
+          <%= select :course_rank, :course_id, Course.active.map {|b| [b.full_name, b.id]},{ :prompt => t('select_a_course') }, {:onChange => "onChangeRequest(this, '#{url_for(action: :batch_groups, course_id: 'paramid')}')"} %>
+        </div><br>
+      </div>
+      <div id="batch_group_list"></div>
+      <%= submit_tag "", value: " #{t('view')}", class: "btn btn-pink" %>
+    <% end %>
+    <div class="extender"></div>
+  </div>
+</div>

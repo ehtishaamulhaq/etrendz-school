@@ -1,0 +1,42 @@
+<div class="row" style="padding-left:20px;padding-top:20px;">
+<%= form_tag('/users/search_users.json', class: 'search_users', remote: true, method: 'get') do %>
+  <div class="col-xs-3">
+  <%= text_field_tag("query") %>
+  </div>
+  <div class="col-xs-3 pull-right">
+    <button class="btn btn-success"onclick="window.location.href='/users/all'">View All</button>
+    <button class="btn btn-primary"onclick="window.location.href='/users/new'">Add New</button>
+  </div>
+<% end %>
+</div><br>
+<div id="users"></div>
+
+<table id="firstItem">
+</table>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+   $('#query').keyup(function(){
+    if(this.value.length > 2) {
+      $.get("/users/search_user_ajax.json?query=" + this.value , function(mydata){
+        var table = '';
+        table = '<table class="table"><tr><td>Sl no.</td><td>Name</td><td>Username</td><td>Role</td></tr>'
+        for(i=0;i< mydata.length; i++) {
+          table += '<tr><td>'+ (i+1) +'</td><td>'+mydata[i].first_name+'</td><td>'+mydata[i].username+'</td><td>'+mydata[i].role+'</td></tr>';
+        }
+        table += '</table>';
+        $('#users').html(table);
+      });
+    }
+    else {
+        $('#users').html('');
+
+    }
+    return false;
+
+   });
+
+  });
+
+</script>

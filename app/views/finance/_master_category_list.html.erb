@@ -1,0 +1,67 @@
+<% unless @master_categories.empty? %>
+  <table align="center" cellpadding="1" cellspacing="1" id="listing" width="100%">
+    <tr class="tr-head">
+      <td>
+        <%= t('sl_no') %>
+      </td>
+      <td>
+        <%= t('fees_name') %>
+      </td>
+      <td>
+        <%= t('batch') %>
+        <%= t('name') %>
+      </td>
+      <td>
+        <%= t('created_date') %>
+      </td>
+      <td>
+        <%= t('select') %>
+      </td>
+    </tr>
+    <tr class="tr-blank"></tr>
+    <% @master_categories.each_with_index do |fees,i| %>
+      <tr class="tr-<%= cycle('odd','even') %>">
+        <td class="col-1">
+          <%= i+1 %>
+        </td>
+        <td class="col-4">
+          <%= link_to fees.name, {action: :master_category_particulars, id: fees.id} %>
+        </td>
+        <td class="col-7">
+          <% unless fees.batch.nil? %>
+            <%= shorten_string(fees.batch.full_name,50) %>
+          <% else %>
+            <%= t('all') %>
+          <% end %>
+        </td>
+        <td class="col-7">
+          <%= I18n.l(fees.created_at, format: "%m-%d-%Y") %>
+        </td>
+        <td class="col-7">
+          <div class="options">
+            <% unless fees.check_fee_collection == false %>
+              <span class="small">
+                <%= link_to t('delete_text'), { action: :master_category_delete, id: fees.id}, confirm: t('delete_confirm_msg'), remote: true, method: :delete %>
+              </span>
+            <% else %>
+              <span class="small-strike">
+                <%= t('delete_text') %>
+              </span>
+            <% end %>
+            <span class="small">
+              <%= link_to t('edit_text'), { action: :master_category_edit, id: fees.id}, remote: true %>
+            </span>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <table align="center" cellpadding="1" cellspacing="1" id="listing" width="100%">
+    <tr class="tr-head">
+      <td>
+        <%= t('no_categories_to_display') %>
+      </td>
+    </tr>
+  </table>
+<% end %>

@@ -1,0 +1,75 @@
+ <div id="content-header" style="padding-left: 20px;">
+   <%#= image_tag("show_finance.png") %>
+   <h1>
+     <%= t('donations') %>
+   </h1>
+   <h3>
+     <%= t('add_new_donation') %>
+   </h3>
+   <div id="app-back-button">
+     <%#= back_button %>
+   </div>
+ </div>
+<div id="inner-tab-menu">
+      <%= link_to "#{t('donors')}", {:action => "donors"}, class: "label label-lg label-pink arrowed-right" %>
+</div>
+<div id="page-yield" style="padding-left: 20px;">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="box">
+    <%= error_messages_for :donation %>
+    <%= form_for :donation do |f| %>
+      <div id="create_user_form">
+        <div class="label-field-pair">
+          <label for="donor_name">
+            <%= t('donor_name') %>
+          </label>
+          <div class="text-field-bg">
+            <%= f.text_field :donor %>
+          </div>
+        </div>
+        <div class="label-field-pair">
+          <label for="description">
+            <%= t('description') %>
+          </label>
+          <div class="text-field-bg">
+            <%= f.text_field :description %>
+          </div>
+        </div>
+        <div class="label-field-pair">
+          <label for="description">
+            <%= t('transaction_date') %>
+          </label>
+          <div class="text-field-bg">
+            <%#= calendar_date_select_tag 'donation[transaction_date]', I18n.l(Date.today,:format=>:default), :year_range => 5.years.ago..0.years.ago %>
+            <%= f.text_field :transaction_date, :class => 'transaction_date' %>
+          </div>
+        </div>
+        <div class="label-field-pair">
+          <label for="amount">
+            <%= t('amount') %>
+          </label>
+          <div class="text-field-bg">
+            <%= f.text_field :amount %>
+          </div>
+        </div><br>
+        <%= submit_tag " #{t('add')}",:class=>'btn btn-info' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $( ".transaction_date" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false
+  });
+
+
+});
+
+</script>

@@ -1,0 +1,89 @@
+<%#= javascript_include_tag :application %>
+<%#= stylesheet_link_tag("exam_groups/new.css") %>
+<%#= csrf_meta_tag %>
+<div id="content-header" style="padding-left: 20px;">
+  <%#= image_tag("examination/show_exam.png") %>
+  <h1>
+    <%= t('exams_text') %>
+  </h1>
+  <h3>
+    <%= t('new_exam') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<div id="page-yield" style="padding-left: 20px;">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="bread_crumb">
+    <%= link_to t('course_text'), courses_path %>
+    <%= link_to @course.full_name, @course %>   »
+    <%= link_to "#{t('batch')} #{@batch.name}", {:controller => 'batches', :action => :show, :course_id => @course, :id => @batch} %>  »
+    <%= link_to "#{t('exam_text')}", batch_exam_groups_path(@batch) %>  »
+    <%= t('new_exam') %>
+  </div>
+  <div class="box">
+    <div id="flash"></div>
+    <div id="exam-form">
+      <% unless params[:exam_group].blank? %>
+        <% if params[:exam_group][:exam_type] == 'Marks' or params[:exam_group][:exam_type] == 'MarksAndGrades' %>
+          <%= render :partial=>'exam/exam_marks_form' %>
+        <% else %>
+          <%= render :partial=>'exam/exam_grade_form' %>
+        <% end %>
+      <% else %>
+        <%= error_messages_for :exam_group %>
+        <%= form_for(:exam_option, :url => {:controller=>'exam',:action => 'update_exam_form',:batch=>@batch}, :remote => true) do |form| %>
+          <div class="label-field-pair">
+            <label for="exam_name">
+              <%= t('exam_name') %>
+            </label>
+            <% if params[:ename].nil? %>
+              <% @ename = "" %>
+            <% else %>
+              <% @ename = params[:ename] %>
+            <% end %>
+            <div class="text-input-bg">
+              <%= form.text_field :name, :value=>@ename %>
+            </div>
+          </div>
+          <% if @batch.gpa_enabled? or @batch.cwa_enabled? %>
+            <div class="label-field-pair">
+              <label for="exam_type">
+                <%= t('exam_type') %>
+              </label>
+              <div class="text-input-bg">
+                <%= select :exam_option,:exam_type,[[t('marks_and_grades'),"MarksAndGrades"]] %>
+              </div><br>
+            </div>
+          <% elsif @batch.cce_enabled? %>
+            <div class="label-field-pair">
+              <label for="cce_exam_category_id">
+                <%= t('cce_exam_category') %>
+              </label>
+              <div class="text-input-bg">
+                <%= select :exam_option,:cce_exam_category_id,@cce_exam_categories.map{|ec| [ec.name,ec.id]},:prompt=>t("select") %>
+              </div><br>
+            </div>
+            <%= hidden_field :exam_option,:exam_type, :value=>"MarksAndGrades" %>
+          <% else %>
+            <div class="label-field-pair">
+              <label for="exam_type">
+                <%= t('exam_type') %>
+              </label>
+              <div class="text-input-bg">
+                <%= select :exam_option,:exam_type,[[t('marks'),"Marks"],[t('grades'), "Grades"],[t('marks_and_grades'),"MarksAndGrades"]] %>
+              </div><br>
+            </div>
+          <% end %>
+          <%= submit_tag "", :value => " #{t('save')}", :class => "btn btn-pink" %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="extender"></div>
+  </div>
+</div>

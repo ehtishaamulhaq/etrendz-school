@@ -1,0 +1,29 @@
+<div style="padding-left:20px;padding-top:20px;">
+
+
+<span>Select a Batch: </span>
+
+<%#= select_tag(:user_type, :type, [["admin","Admin"], ["employee_text","Employee"],["student_text","Student"],["parent","Parent"]])  %>
+<%#= select_tag(:user_type, options_for_select: ["Admin","Employee","Student","Parent"])  %>
+<%= select_tag(:user_type, options_for_select([["#{t('admin')}","Admin"], ["#{t('employee_text')}","Employee"],["#{t('student_text')}","Student"],["#{t('parent')}","Parent"]]), include_blank: true) %>
+
+<br>
+
+<div id="users"> </div>
+<div id="employee_user"> </div>
+</div>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+   $('#user_type').change(function(){
+
+    $.get("/users/list_user?user_type=" + this.value, function(mydata){
+      $('#users').html(mydata);
+    });
+    return false;
+
+   });
+  });
+</script>

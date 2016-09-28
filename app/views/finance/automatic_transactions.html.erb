@@ -1,0 +1,50 @@
+<div id="content-header" style="padding-left: 20px;">
+  <%#= image_tag("show_finance.png") %>
+  <h1>
+    <%= t('finance_text') %>
+  </h1>
+  <h3>
+    <%= t('automatic_transactions') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<div id="page-yield" style="padding-left: 20px;">
+  <div id="flash_box"></div>
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="box">
+    <div class="link-heading">
+      <%= link_to t('create_text'), 'javascript:void(0);', onclick: 'create_text();', style: "font-weight:bold;font-size:18px;" %>
+      <!-- = link_to_function("#{t('create_text')}") { |page|                               |
+      -->
+      <!--     page.replace_html 'modal-box', :partial => 'transaction_trigger_create_form' |
+      -->
+      <!--     page << "Modalbox.show($('modal-box'), {title: '', width: 500});"            |
+      -->
+      <!--   }                                                                              |
+      -->
+      
+    </div>
+    <div class="link-descr">
+        <%= t('create_auto_transaction') %>
+      </div>
+    <div class="link-descr"></div>
+    <div id="transaction-triggers-list">
+      <%= render "transaction_triggers_list" %>
+    </div>
+    <div id="modal-box" style="display:none;"></div>
+  </div>
+</div>
+<script>
+  
+  function create_text(){
+    jQuery('#modal-box').html("#{escape_javascript render 'transaction_trigger_create_form'}")
+    jQuery('#modal-box').modalBox(width: 500)
+  }
+
+</script>

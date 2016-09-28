@@ -1,0 +1,63 @@
+<div id="page-yield" style="padding-left: 20px;padding-top: 40px;">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="box">
+    <% if permitted_to? :index,:grading_levels %>
+    <div class="row">
+    <div class="col-md-4">
+      <div class="link-box">
+        <div class="link-heading">
+          <%= link_to t('set_grading_levels'), {controller: :grading_levels, action: :index}, style: "font-weight:bold;font-size:18px;" %>
+        </div>
+        <div class="link-descr">
+          <%= t('set_grading_levels') %>
+        </div>
+      </div>
+      </div>
+    <% end %>
+    <% if permitted_to? :index, :ranking_levels %>
+    <div class="col-md-4">
+      <div class="link-box">
+        <div class="link-heading">
+          <%= link_to t('ranking_levels_text'), {controller: :ranking_levels, action: :index}, style: "font-weight:bold;font-size:18px;" %>
+        </div>
+        <div class="link-descr">
+          <%= t('manage_ranking_levels') %>
+        </div>
+      </div>
+      </div>
+    <% end %>
+    </div><br>
+    <% if permitted_to? :index,:class_designations %>
+    <div class="row">
+    <div class="col-md-4">
+      <div class="link-box">
+        <div class="link-heading">
+          <%= link_to t('class_designations_text'), {controller: :class_designations, action: :index}, style: "font-weight:bold;font-size:18px;" %>
+        </div>
+        <div class="link-descr">
+          <%= t('manage_class_designations') %>
+        </div>
+      </div>
+      </div>
+    <% end %>
+    <% if Setting.cce_enabled? %>
+      <% if permitted_to? :index,:cce_settings %>
+    <div class="col-md-4">
+        <div class="link-box">
+          <div class="link-heading">
+            <%= link_to t('cce_sttings'), controller: :cce_settings, action: :index %>
+          </div>
+          <div class="link-descr">
+            <%= t('manage_cce_settings') %>
+          </div>
+        </div>
+        </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

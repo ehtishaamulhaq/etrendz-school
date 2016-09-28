@@ -1,0 +1,82 @@
+<div id="content-header" style="padding-left:20px;">
+  <%#= image_tag("/images/show_finance.png") %>
+  <h1><%= t('master_category') %></h1>
+  <h3><%= t('finance_management') %></h3>
+  <div id="app-back-button">
+  </div><hr>
+</div>
+<div id="page-yield" style="padding-left:20px;">
+  <div id="flash_box">
+  </div>
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg"> <%= flash[:notice] %> </p>
+  <% end %>
+  <div class="bread_crumb">
+    <%= link_to t('finance_text'), :controller => "finance", :action=>"index" %> &raquo;
+    <%= link_to "#{t('fees_text')}", :controller => "finance", :action => "fees_index" %> &raquo;
+    <%= link_to "#{t('create_fees')}", :controller => "finance", :action => "fees_create" %> &raquo;
+    <%= t('master_fees') %>
+  </div>
+  <div id="message"></div>
+  <div class="box">
+    <div class="fee-link">
+    <div class="row">
+      <div class="col-md-4">
+      <div class="link-box">
+        <div class="link-heading">
+          <%= link_to t('create_category'), { action: :master_category_new}, remote: true, style: "font-weight:bold;font-size:18px;" %>
+        </div>
+        <div class="link-descr">
+          <%= t('create_master_category') %>
+        </div>
+      </div>
+      </div>
+      <div class="col-md-4">
+      <div class="link-box">
+        <div class="link-heading">
+          <%= link_to t('create_particulars'), {action: :fees_particulars_new}, style: "font-weight:bold;font-size:18px;" %>
+        </div>
+        <div class="link-descr">
+          <%= t('create_particulars') %>
+        </div>
+      </div>
+      </div>
+      <div class="col-md-4">
+      <div class="link-box">
+        <div class="link-heading">
+          <%= link_to t('create_discount'), {action: :fee_discounts}, style: "font-weight:bold;font-size:18px;" %>
+        </div>
+        <div class="link-descr">
+          <%= t('create_fee_discounts') %>
+        </div>
+      </div>
+      </div>
+      </div>
+    </div><br>
+    <div id="modal-box" style="display:none;"></div>
+    <%= @a %>
+    <div id="batch">
+      <div class="label-field-pair">
+        <label>
+          <%= t('select_a_batch') %>
+          :
+        </label>
+        <div class="text-input-bg">
+          <%= select("id",:id, @batchs.map { |c| [c.full_name, c.id] }, { prompt: t('select_a_batch')}, { onChange: "onChangeRequest(this, '#{url_for(action: :show_master_categories_list, id: 'paramid')}')"}) %>
+        </div>
+      </div>
+    </div>
+    <div id="fee_collection_dates"></div>
+    <div id="categories">
+      <%= render "master_category_list" unless params[:batch_id].blank? %>
+    </div>
+  </div>
+
+</div>
+
+
+<div id="master-category-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-master-category-modal" class="modal-content"></div>
+  </div>
+</div>

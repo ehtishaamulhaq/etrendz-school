@@ -1,0 +1,12 @@
+<%= form_tag('/news', method: 'get') do %>
+  <div class="col-xs-3">
+  <%= text_field_tag("query") %>
+  <%= submit_tag 'Search News', class: 'btn btn-sm btn-info' %>
+  </div>
+<% end %>
+
+
+  <div class="col-xs-3 pull-right">
+    <button class="btn btn-success"onclick="window.location.href='/news'">View All</button>
+    <button class="btn btn-info"onclick="window.location.href='/news/new'">Add</button>
+  </div>

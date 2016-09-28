@@ -1,0 +1,12 @@
+<%#= javascript_include_tag :application %>
+<div class="label-field-pair">
+  <label for="student_course">
+    <%= t('select_a_batch') %>
+    <%= image_tag("loader.gif",:align => "absmiddle",:border => 0,:id => "loader1", :style =>"display: none;" ) %>
+  </label>
+  <div class="text-input-bg">
+    <%= select :course, :batch_id,@batches.map {|b| [b.name, b.id]}, {:prompt => "#{t('select_a_batch')}"}, {:onChange => "onChangeRequest(this, '#{url_for(action: :list_inactive_exam_groups, batch_id: 'paramid')}')"} %>
+  </div>
+</div>
+<div id="inactive_exam_groups"></div>
+<div class="extender"></div>

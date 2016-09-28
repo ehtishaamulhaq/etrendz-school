@@ -1,0 +1,7 @@
+<% if @mode == 'Overall' %>
+  $("#report").html("<%= escape_javascript(render 'report') %>")
+	$("#month").html("")
+  $("#year").html("")
+<% else %>
+  $("#month").html("<%= escape_javascript(render 'month') %>")
+<% end %>

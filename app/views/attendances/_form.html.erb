@@ -1,0 +1,70 @@
+<%= form_for @attendance, remote: true, html: {class: 'new_attendance_form', style: "display:inline;" } do |f| %>
+ <div class="modal-body">
+    <ul class="errors"></ul>
+
+          <%= f.hidden_field :student_id %>
+          <%= f.hidden_field :batch_id %>
+          <%= f.hidden_field :month_date %>
+
+
+    <div class="row">
+       <div class="control-group col-sm-12">
+         <%= f.label :reason, class:"control-label" %>
+         <%= f.text_field :reason %>
+       </div>
+    </div>
+    <br>
+    <div class="row">
+       <div class="control-group col-sm-12">
+          <%= f.check_box(:forenoon, {checked: true}) %>
+         <%= f.label :forenoon, class:"control-label" %>
+       </div>
+       <div class="control-group col-sm-12">
+          <%= f.check_box(:afternoon, {checked: true}) %>
+         <%= f.label :afternoon, class:"control-label" %>
+       </div>
+    </div>
+
+
+  </div>
+    <br>
+  <div class="modal-footer">
+    <%= f.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", "#", class: "btn", data: {dismiss: "modal"} %>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $('.new_attendance_form').submit(function(){
+      var valuesToSubmit = $(this).serialize();
+      $.ajax({
+        method:"POST",
+        url: $(this).attr('action'),
+        data: valuesToSubmit,
+        dataType: "JSON", // you want a difference between normal and ajax-calls, and json is standard
+        success: function(json){
+        //act on result.
+          id =  "#" + json.student_id + "_" + parseInt(json.month_date.split(/[- ]+/).pop());  // CREATING THE ID USING EMP_ID AND DAY
+           // alert(id);
+           $(id).html("<a style='text-decoration:none;text-align:center' data-remote='true' href='/attendances/new?student_id=" + json.student_id + "&amp;month_date=" + json.month_date + "'>X</a>");
+          $('.modal').modal('hide');
+          // $('#myqty').focus();
+        },
+
+        // Code to run if the request fails; the raw request and
+        // status codes are passed to the function
+        error: function( xhr, status, errorThrown ) {
+          $.each(xhr.responseJSON, function(k, v) {
+              //display the key and value pair
+              alert(k + ' ' + v);
+          });
+        }
+      });
+      return false;
+    });
+  });
+
+</script>

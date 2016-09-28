@@ -1,0 +1,53 @@
+<div id="page-yield" style="padding:40px;">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="box">
+  <div class="row">
+  <div class="col-md-4">
+    <div class="link-box">
+      <div class="link-heading">
+        <%= link_to "#{t('add_expense')}", {:action => "expense_create"}, style: "font-weight:bold;font-size:18px;" %>
+      </div>
+      <div class="link-descr">
+        <%= t('create_new_expense') %>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-4">
+    <div class="link-box">
+      <div class="link-heading">
+        <%= link_to "#{t('add_income')}", {:action => "income_create"}, style: "font-weight:bold;font-size:18px;" %>
+      </div>
+      <div class="link-descr">
+        <%= t('create_new_income') %>
+      </div>
+    </div>
+    </div>
+    </div><br><br>
+    <div class="row">
+    <div class="col-md-4">
+    <div class="link-box">
+      <div class="link-heading">
+        <%= link_to "#{t('report')}", {:action => "monthly_report"}, style: "font-weight:bold;font-size:18px;" %>
+      </div>
+      <div class="link-descr">
+        <%= t('show_transactions') %>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-4">
+    <div class="link-box">
+      <div class="link-heading">
+        <%= link_to "#{t('compare_transactions')}", {:action => "compare_report"}, style: "font-weight:bold;font-size:18px;" %>
+      </div>
+      <div class="link-descr">
+        <%= t('compare_transactions') %>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>

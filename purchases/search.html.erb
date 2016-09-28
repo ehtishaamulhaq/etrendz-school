@@ -1,0 +1,41 @@
+ <script src="/assets/jquery-ui.js"></script>
+
+<script>
+
+$(document).ready(function(){
+	$("#supplier").autocomplete({
+	  source: $('#supplier').data('autocomplete-source'),
+	  select: function( event, ui ) {
+			  $('#supplier_id').val(ui.item.id);
+			this.form.action =this.form.action
+			this.form.submit();
+	  }
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+	
+      return $( "<li>" )
+        .append( "<a>" + item.name + "</a>" )
+        .appendTo( ul );
+
+    };
+	
+	
+});
+</script>
+	
+<br/>
+<div  class="row">
+	<div class="col-sm-8">
+		<form action='/suppliers/purchases'>
+			<input type='hidden' id='supplier_id' name='supplier_id' />
+			<input type='text' class="col-sm-4" id= 'supplier' name='supplier' data-autocomplete-source ='/suppliers.json' placeholder="Supplier Name"/>&nbsp;
+			<%= submit_tag "Search by Supplier", :name => nil, :class => 'btn btn-sm btn-primary' %>
+		</form>
+	</div>
+	<div  class="col-sm-4">
+		<form action='/purchases/search_result'>
+			<input type='text' id='invoice' name='invoice'  placeholder="Invoice"/>
+			<%= submit_tag "Search by Invoice", :name => nil, :class => 'btn btn-sm btn-primary' %>
+		</form>
+	</div>
+</div>
+		

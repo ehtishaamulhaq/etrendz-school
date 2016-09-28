@@ -1,0 +1,272 @@
+<div class="name">
+  <%= t('fees_receipt_no') %>
+</div>
+<div class="val themed_text">
+  <span>:</span>
+  <%= @paid_fees.nil? ? t('n_a') : @paid_fees.map(&:receipt_no).join(',') %>
+</div>
+<% unless @fee_category.nil? %>
+  <div class="name">
+    <%= t('fee_category_name') %>
+  </div>
+  <div class="val themed_text">
+    <span>:</span>
+    <%= @fee_category.name %>
+  </div>
+<% end %>
+<% unless @student.student_category.nil? %>
+  <div class="name">
+    <%= t('student_category') %>
+  </div>
+  <div class="val themed_text">
+    <span>:</span>
+    <%= @student.student_category.name %>
+  </div>
+<% else %>
+  <div class="name">
+    <%= t('student_category') %>
+  </div>
+  <div class="val themed_text">
+    <span>:</span>
+    <%= t('n_a') %>
+  </div>
+<% end %>
+<br/>
+<%= error_messages_for "financefee" ,:header_message => nil %>
+<% unless @financefee.is_paid %>
+  <%= render :partial => "fine_submission" if @fine.nil? %>
+<% end %>
+<div id="register">
+  <div class="header center">
+    <div class="prev inline">
+      <%#= link_to '◄', {:action => 'load_fees_submission_batch', :batch_id => @batch.id, :student => @prev_student.id, :date=> @date.id, :remote => true } %>
+      <%= link_to '◄', '/finance/load_fees_submission_batch?batch_id='+ @batch.id.to_s + '&student=' + @prev_student.id.to_s + '&date=' +@date.id.to_s, :remote => true  %>
+    </div>
+    <div class="month inline">
+      <%= @student.full_name %>
+    </div>
+    <div class="next inline">
+      <%#= link_to '►',{:action => 'load_fees_submission_batch', :batch_id => @batch.id, :student => @next_student.id, :date=> @date.id, :remote => true } %>
+      <%= link_to '►','/finance/load_fees_submission_batch?batch_id='+ @batch.id.to_s + '&student=' + @next_student.id.to_s + '&date=' +@date.id.to_s, :remote => true  %>
+    </div>
+    <div class="extender"></div>
+  </div>
+</div>
+<% total_fees =0 %>
+<%= form_for :fees, :url => {:action => 'update_ajax',:student => @student.id,:batch_id => @batch.id,:date => @date.id, :fine=>@fine}, :remote => true do |form| %>
+  <% unless @fee_particulars.nil? %>
+    <table class='table table-striped' align="center" cellpadding="1" cellspacing="1" id="listing" width="100%">
+      <tr>
+        <th>
+          <%= t('sl_no') %>
+        </th>
+        <th>
+          <%= t('particulars') %>
+        </th>
+        <th>
+          <%= t('amount') %>
+        </th>
+      </tr>
+      <% i = 0 %>
+      <% @fee_particulars.each do |fee| %>
+        <tr>
+          <td class="col-1">
+            <%= i+=1 %>
+          </td>
+          <td class="col-2">
+            <%= fee.name %>
+          </td>
+          <td class="pull-right">
+            <%= fee.amount %>
+          </td>
+        </tr>
+        <% total_fees += fee.amount %>
+      <% end %>
+      <% unless @total_discount == 0 %>
+        <tr cellpadding="1" cellspacing="1">
+          <td class="col-1"></td>
+          <td class="col-1" colspan="2">
+            <span class="themed_text">
+              <%= t('discount') %>
+            </span>
+          </td>
+        </tr>
+        <% @batch_discounts.each do |d| %>
+          <tr>
+            <td class="col-1">
+              <%= i+1 %>
+            </td>
+            <% discount_text = d.is_amount == true ? "#{d.name}" : "#{d.name}(#{d.discount})%" %>
+            <td class="col-2">
+              <%= discount_text %>
+            </td>
+            <td class="col-6">
+              <%= d.total_payable * d.discount / 100 %>
+            </td>
+          </tr>
+          <% i += 1 %>
+        <% end %>
+        <% @student_discounts.each do |d| %>
+          <tr>
+            <td class="col-1">
+              <%= i+1 %>
+            </td>
+            <% discount_text = d.is_amount == true ? "#{d.name}" : "#{d.name}(#{d.discount})%" %>
+            <td class="col-2">
+              <%= discount_text %>
+            </td>
+            <td class="col-6">
+              <%= d.total_payable * d.discount / 100 %>
+            </td>
+          </tr>
+          <% i += 1 %>
+        <% end %>
+        <% @category_discounts.each do |d| %>
+          <tr>
+            <td class="col-1">
+              <%= i+1 %>
+            </td>
+            <% discount_text = d.is_amount == true ? "#{d.name}" : "#{d.name}(#{d.discount})%" %>
+            <td class="col-2">
+              <%= discount_text %>
+            </td>
+            <td class="col-6">
+              <%= d.total_payable * d.discount / 100 %>
+            </td>
+          </tr>
+          <% i += 1 %>
+        <% end %>
+        <tr cellpadding="1" cellspacing="1">
+          <td class="col-8" colspan="2">
+            <%= t('total_discount') %>
+          </td>
+          <td class="col-6">
+            <%= "#{@total_discount}" %>
+          </td>
+        </tr>
+        <% total_fees = (total_fees - ((total_fees*@total_discount_percentage)/100)) %>
+        <tr cellpadding="1" cellspacing="1">
+          <td class="col-8" colspan="2">
+            <%= t('total_fees') %>
+          </td>
+          <td class="col-6">
+            <%= total_fees %>
+          </td>
+        </tr>
+      <% end %>
+      <% unless @fine.nil? %>
+        <tr>
+          <td class="col-1">
+            <%= i+=1 %>
+          </td>
+          <td class="col-2">
+            <span class="themed_text">
+              <%= t('fine_on') %>
+              <%= Date.today %>
+            </span>
+          </td>
+          <td class="col-6">
+            <%= @fine.to_f %>
+          </td>
+        </tr>
+        <% unless @financefee.is_paid? == true %>
+          <% total_fees += @fine.to_f %>
+        <% else %>
+          <% total_fees = @fine %>
+        <% end %>
+      <% end %>
+      <% unless @financefee.transaction_id.nil? %>
+        <%# @transactions = FinanceTransaction.all(:conditions=>"id IN (#{@financefee.transaction_id})") %>
+        <% @transactions = FinanceTransaction.where("id in (#{@financefee.transaction_id})") %>
+        <% unless @transactions.blank? %>
+          <% @transactions.each do |trans| %>
+            <% if trans.fine_included %>
+              <tr>
+                <td class="col-1">
+                  <%= i+=1 %>
+                </td>
+                <td class="col-2">
+                  <span class="themed_text">
+                    <%= t('fine_on') %>
+                    <%= trans.transaction_date %>
+                  </span>
+                </td>
+                <td class="col-6">
+                  <%= trans.fine_amount %>
+                </td>
+              </tr>
+              <% total_fees += trans.fine_amount.to_f %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% unless @paid_fees.nil? %>
+        <tr cellpadding="1" cellspacing="1">
+          <td class="col-1"></td>
+          <td class="col-1" colspan="2">
+            <span class="themed_text">
+              <%= t('payment_done') %>
+            </span>
+          </td>
+        </tr>
+        <% paid = 0 %>
+        <% i = 0 %>
+        <% @paid_fees.each do |pp| %>
+
+          <% paid += pp.amount.to_f %>
+          <tr>
+            <td class="col-1">
+              <%= i+=1 %>
+            </td>
+            <td class="col-2">
+              <%= t('partial_payment_on') %>
+              <%= pp.transaction_date %>
+            </td>
+            <td class="col-6">
+              <%= pp.amount.to_f %>
+            </td>
+          </tr>
+        <% end %>
+        <% total_fees -= paid %>
+      <% end %>
+      <tr cellpadding="1" cellspacing="1">
+        <td class="col-8" colspan="2">
+          <%= t('amount_to_pay') %>
+        </td>
+        <td class="pull-right">
+          <%= total_fees %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <div class="pay_fees">
+            <% unless total_fees.to_f ==0 %>
+              <div class="label-field-pair2">
+                <label>
+                  <%= t('amount') %>
+                </label>
+                <div class="inline pull-right">
+                  <%= form.text_field :fees_paid, :value=>total_fees, class: 'form-control' %>
+                </div>
+                <%= hidden_field_tag :total_fees, total_fees %>
+              </div>
+              <div class="pay_fees_buttons">
+                <%= submit_tag "#{t('pay_fees')}", :class=> 'btn btn-success btn-sm pull-right' %>
+                <%= link_to "#{t('print_receipt')}", {:controller => "finance", :action => "student_fee_receipt_pdf", :id => @student.id, :id2=>@date.id},:target => '_blank', :class=> 'btn btn-pink btn-sm pull-right' unless @trans.nil? %>
+              </div>
+            <% else %>
+              <h4>
+                <%= t('fees_paid') %>
+              </h4>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <%= link_to "#{t('print_receipt')}", {:controller => "finance", :action => "student_fee_receipt_pdf", :id => @student.id, :id2=>@date.id},:target => '_blank', :class=> 'btn btn-pink btn-sm pull-right' %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+<% end %>

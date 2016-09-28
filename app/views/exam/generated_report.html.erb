@@ -1,0 +1,75 @@
+<div id="content-header">
+  <%#= image_tag("examination/show_exam.png") %>
+  <h1>
+    <%= t('exams_text') %>
+  </h1>
+  <h3>
+    <%= t('generated_report') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<div id="inner-tab-menu">
+  <ul>
+    <% if permitted_to? :consolidated_exam_report,:exam %>
+      <li>
+        <%= link_to t('consolidated_report'), action: :consolidated_exam_report , exam_group: @exam_group.id %>
+      </li>
+    <% end %>
+    <% if permitted_to? :generated_report_pdf,:exam %>
+      <li>
+        <%= link_to t('pdf_report'), { controller: :exam, action: :generated_report_pdf, exam_group: @exam_group.id, batch: @batch.id}, target: :blank %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<div id="page-yield">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="bread_crumb">
+    <%= link_to t('exam_text'), :controller => "exam", :action=>"index" %> »
+    <%= link_to t('report_center'), :controller => "exam", :action => "report_center" %> »
+    <%= link_to t('exam_wise_report'), :controller => "exam", :action => "exam_wise_report" %> »
+    <%= t('generated_report') %>
+  </div>
+  <h3 align="center">
+    <%= @student.batch.full_name %>
+    - <%= @exam_group.name %>
+  </h3>
+  <div id="student_list">
+    <%= render  :partial=>"exam_wise_student_list" %>
+  </div>
+  <div id="exam_wise_report">
+    <%= render :partial=>'exam_wise_report' %>
+  </div>
+  <div class="box"></div>
+</div>
+<script>
+$(document).ready(function(){
+
+  // function draw_report(){
+  //   Element.show('loader')
+  //   new Ajax.Request('/exam/generated_report',
+  //   {asynchronous:true, evalScripts:true,
+  //     parameters:'student='+this.id+'&exam_group=#{@exam_group.id}',onSuccess:function(request){Element.hide('loader')}
+  //   })
+  // }
+
+  $('.student-link').on( "click", function() {
+    my_id = $( this ).attr('id');
+    $('.active-link').removeClass('active-link');
+    $( this ).addClass('active-link');
+
+
+    $.get('/exam/generated_report?student=' + my_id + '&exam_group=<%= @exam_group.id %>' , function(mydata){
+      $('.box').html(mydata);
+    });
+
+
+  });
+});
+</script>

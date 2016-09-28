@@ -1,0 +1,16 @@
+<div id="page-yield">
+  <div id="flash_box"></div>
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div id="student-category-form">
+    <%= render :partial => "student_category_create_form" %>
+  </div>
+  <br/>
+  <br/>
+  <div id="student-category-list">
+    <%= render :partial => "student_category_list" %>
+  </div>
+</div>

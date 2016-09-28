@@ -1,0 +1,26 @@
+
+
+<span>Select a Department: </span>
+
+<%= select_tag(:dept_type, options_from_collection_for_select(@emp_dept, "id", "name"), include_blank: true)  %>
+<br>
+
+<div id="users"> </div>
+<div id="employee_user"> </div>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+   $('#dept_type').change(function(){
+
+    $.get("/users/list_employee_user?dept_id=" + this.value, function(mydata){
+      $('#users').html(mydata);
+    });
+    return false;
+
+   });
+  });
+</script>
+

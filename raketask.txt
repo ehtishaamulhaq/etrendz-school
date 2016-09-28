@@ -1,0 +1,1 @@
+E:\projects\working-projects>rails g scaffold leather_purchase receipt_no:string dc_no:string dc_date:date invoice_no:string invoice_date:date supplier:references purchase_date:date is_paid:boolean amount:float transport_charges:string forwarding:integer loading:integer unloading:integer discount:float vat:integer product_id:integer pieces:integer sqft:integer price:float

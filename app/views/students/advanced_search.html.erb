@@ -1,0 +1,76 @@
+
+  <div id="search-form" style="padding-left:20px;padding-top:20px;">
+    <form action='/students/advanced_search' method='POST'>
+    <div class="row">
+    <div class="col-md-2">
+      <label>Name: </label>
+      </div>
+      <div class="col-md-2">
+       <input type='text' name='first_name' placeholder='Name' >
+       </div>
+       </div><br>
+       <div class="row">
+       <div class="col-md-2">
+      <label>Admission No: </label>
+      </div>
+      <div class="col-md-2">
+       <input type='text' placeholder='Admission No' name='admission_no'>
+      </div>
+      </div><br>
+      <div class="row">
+      <div class="col-md-2">
+      <label>Batch: </label>
+      </div>
+      <div class="col-md-2"> 
+      <%= select_tag "batch_id", options_from_collection_for_select(Batch.all, "id", "full_name") %>
+      </div>
+      </div>
+      <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+     <input class='btn btn-sm btn-info' type='Submit'>
+    </form>
+  </div>
+
+  <% unless @students.nil? %>
+
+    <script type="text/javascript">
+      
+  $(document).ready(function(){ $('#search-form').hide(); });
+    </script>
+
+      <table class="table table-striped">
+        <% unless @students.empty? %>
+          <tr>
+            <td>
+              S.No
+            </td>
+            <td>
+              Name
+            </td>
+            <td>Batch</td>
+            <td>Admission No</td>
+
+          </tr>
+          <% i = 0 %>
+          <% @students.each do |student| %>
+            <tr class="tr-<%= cycle('odd', 'even') %>">
+              <td class="col-1"><%= i+=1 %></td>
+              <%  if  student.is_active %>
+                <td class="col-2"><%=  link_to student.first_name, :controller => 'students', :action => 'show', :id => student.id%></td>
+              <% else  %>
+                <td class="col-2"><%#=  link_to student.first_name, :controller => 'archived_student', :action => 'profile', :id => student.id%></td>
+              <% end %>
+              <td class="col-2"><%= student.batch.full_name %></td>
+              <td class="col-2"><%= student.admission_no %></td>
+            </tr>
+          <% end %>
+        <% else %>
+
+          <tr class="tr-<%= cycle('odd', 'even') %>">
+            <td class="col-2">No Student Found</td>
+          </tr>
+        <% end %>
+      </table>
+
+
+
+  <% end %>

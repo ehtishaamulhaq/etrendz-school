@@ -1,0 +1,27 @@
+<h1>Listing timetable_entries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Batch</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @timetable_entries.each do |timetable_entry| %>
+      <tr>
+        <td><%= timetable_entry.batch_id %></td>
+        <td><%= link_to 'Show', timetable_entry %></td>
+        <td><%= link_to 'Edit', edit_timetable_entry_path(timetable_entry) %></td>
+        <td><%= link_to 'Destroy', timetable_entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Timetable entry', new_timetable_entry_path %>

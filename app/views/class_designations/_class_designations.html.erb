@@ -1,0 +1,34 @@
+<ul class="category-list">
+  <% unless @class_designations.empty? %>
+    <li class="heading">
+      <%= t('class_designations_text') %>
+    </li>
+    <% @class_designations.each  do |designation| %>
+      <li class="list<%= cycle('odd', 'even') %>">
+        <div class="category-name">
+          <%= designation.name %>
+        </div>
+        <% if @course.gpa_enabled? %>
+          <div class="category-marks">
+            <%= designation.cgpa %>
+          </div>
+        <% else %>
+          <div class="category-marks">
+            <%= designation.marks %>
+          </div>
+        <% end %>
+        <div class="category-edit">
+          <%= link_to "#{t('edit_text')}", {:controller=>"class_designations",:action=>"edit_class_designation", :id=>designation.id}, :remote => true  if permitted_to? :edit_class_designation, :class_designations %>
+        </div>
+        <div class="category-delete">
+          <%= link_to t('delete'), { controller: :class_designations, action: :delete_class_designation, id: designation.id, remote: true }, method: :DELETE if permitted_to? :delete_class_designation, :class_designations %>
+        </div>
+      </li>
+    <% end %>
+  <% else %>
+    <p class="flash-msg">
+      <%= t('no_class_designations_found') %>
+      \.
+    </p>
+  <% end %>
+</ul>

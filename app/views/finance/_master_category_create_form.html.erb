@@ -1,0 +1,95 @@
+<div class="modal-head">
+  <label class="widget-header widget-header-flat" style="width:98%;">
+  <center><h4><%= t('create_master_category_for_fees') %></center></h4></label>
+</div>
+
+<div id="grading-levels-form">
+
+  <%= form_for @finance_fee_category, :url=>{:action=>'master_category_create', :remote => true} do |f| %>
+ <div class="modal-body">
+    <ul class="errors"></ul>
+    <div id="form-errors"></div>
+
+
+    <div class="row">
+       <div class="control-group col-sm-12">
+         <%= f.label "#{t('name')}", class:"control-label" %>
+         <%= f.text_field :name, class: 'pull-right' %>
+       </div>
+    </div>
+<br>
+    <div class="row">
+      <div class="control-group col-sm-12">
+        <%= f.label "#{t('description')}", class:"control-label" %>
+        <%= f.text_field :description, class: 'pull-right' %>
+      </div>
+    </div>
+
+    <div class="label-field-pair">
+      <div class="label-container"><label><%= t('select_a_batch') %> :</label></div>
+      <div class="batches">
+        <div class="sel-list">
+          <%= t('select') %>
+              <div class="btn btn-xs btn-white">
+          <%= select_all('each_batch') %>
+          </div>
+              <div class="btn btn-xs btn-white">
+          <%= select_none('each_batch') %>
+          </div>
+        </div>
+        <!-- <select size="10">
+          <option value="finance_fee_category[batch_id][]"> -->
+        <% @batches.each do |f| %>
+          <div class="each_batch">
+            <%= check_box_tag "finance_fee_category[batch_id][]", f.id %>
+            <label>
+              <%= f.full_name %>
+            </label>
+          </div>
+        <% end %>
+          <!-- </option>
+        </select> -->
+      </div>
+    </div>
+
+  </div>
+    <br>
+  <div class="modal-footer">
+    <%=  submit_tag "► #{t('save')}",:class=>'btn btn-sm btn-pink' %>
+  </div>
+
+  <% end %>
+</div>
+
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $('.new_finance_fee_category').submit(function(){
+      var valuesToSubmit = $(this).serialize();
+      $.ajax({
+        method:"POST",
+        url: $(this).attr('action'),
+        data: valuesToSubmit,
+        // dataType: "JSON", // you want a difference between normal and ajax-calls, and json is standard
+        success: function(json){
+          alert(json)
+          // $('.modal').modal('hide');
+          // $('#myqty').focus();
+        },
+
+        // Code to run if the request fails; the raw request and
+        // status codes are passed to the function
+        error: function( xhr, status, errorThrown ) {
+          $.each(xhr.responseJSON, function(k, v) {
+              //display the key and value pair
+              alert(k + ' ' + v);
+          });
+        }
+      });
+      return false;
+    });
+  });
+
+</script>

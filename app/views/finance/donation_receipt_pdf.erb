@@ -1,0 +1,43 @@
+<div id="page-yield">
+  <div class="hor_line"></div>
+  <h2>
+    <%= t('donation_receipt') %>
+  </h2>
+  <div class="hor_line"></div>
+  <div class="extender"></div>
+  <div class="report">
+    <div id="main_info">
+      <h4>
+        <%= "#{t('donor')}: #{@donation.donor}" %>
+      </h4>
+    </div>
+    <div id="pdf-info">
+      <table cellspacing="0" id="pdf-table" width="100%">
+        <tr class="even">
+          <td class="col-pdf">
+            <%= t('description') %>
+          </td>
+          <td class="col-pdf">
+            <%= @donation.description %>
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="col-pdf">
+            <%= t('amount') %>
+          </td>
+          <td class="col-pdf">
+            <%= @currency_type.to_s+" "+@donation.amount.to_s %>
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="col-pdf">
+            <%= t('transaction_id') %>
+          </td>
+          <td class="col-pdf">
+            <%= @donation.transaction_id %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

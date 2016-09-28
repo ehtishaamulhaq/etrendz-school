@@ -1,0 +1,179 @@
+<style>
+.myspace{
+margin-bottom:7px;
+border-radius:4px;
+width:170px;
+text-align:left;
+}
+a{
+color:#ffffff;
+}
+</style>
+				<div class="page-content">
+					<div class="page-content-area">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<div class="row">
+									<div class="col-xs-12 col-sm-3 widget-container-col ui-sortable">
+										<div class="widget-box ui-sortable-handle">
+											<div class="widget-header">
+												<h5 class="widget-title smaller"><i class="ace-icon fa fa-desktop"></i>
+													Master Entry</h5>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<center>
+														<a target="_blank" href="/students"<button class="btn btn-primary myspace"><i class="ace-icon fa fa-tag align-top bigger-125"></i>Manage Student</button></a>
+														<a target="_blank" href="/news"<button class="btn btn-pink myspace"><i class="ace-icon fa fa-leaf align-top bigger-125"></i>Manage News</button></a>
+														<a target="_blank" href="/students/admission1"<button class="btn btn-danger myspace"><i class="ace-icon fa fa-leaf align-top bigger-125"></i>Manage Admission</button></a>
+														<a target="_blank" href="/courses"<button class="btn btn-purple myspace"><i class="ace-icon fa fa-user align-top bigger-125"></i>Manage Courses</button></a>
+														<a target="_blank" href="/courses/manage_batches"<button class="btn btn-success myspace"><i class="ace-icon fa fa-user align-top bigger-125"></i>Manage Batches</button></a>
+														<a target="_blank" href="/exam"<button class="btn btn-grey myspace"><i class="ace-icon fa fa-user align-top bigger-125"></i>Manage Exam</button></a>
+													</center>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xs-12 col-sm-3 widget-container-col ui-sortable">
+										<div class="widget-box ui-sortable-handle">
+											<div class="widget-header">
+												<h5 class="widget-title smaller"><i class="ace-icon fa fa-briefcase"></i>
+													Attendance</h5>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<center>
+														<a target="_blank" href="/students/attendance_register"><button class="btn btn-info briefcase myspace"><i class="ace-icon fa fa-briefcase align-top bigger-125"></i>Attendance Register</button></a>
+														<a target="_blank" href="/attendance_reports"><button class="btn btn-default myspace"><i class="ace-icon fa fa-search align-top bigger-125"></i>Attendance Report</button></a>
+														<!-- <a target="_blank" href="/purchases/report"><button class="btn btn-pink myspace"><i class="ace-icon fa fa-list align-top bigger-125"></i>View Purchase</button></a>
+														<a target="_blank" href="/purchasesr"><button class="btn btn-purple myspace"><i class="ace-icon fa fa-list align-top bigger-125"></i>All Purchases</button></a> -->
+													</center>
+												</div>
+											</div>
+										</div>
+										<div class="widget-box ui-sortable-handle">
+											<div class="widget-header">
+												<h5 class="widget-title smaller"><i class="ace-icon fa fa-gift"></i>
+												Manage HR</h5>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<center>
+														<a target="_blank" href="/employee/hr"><button class="btn btn-warning myspace"><i class="ace-icon fa fa-gift align-top bigger-125"></i>Manage HR</button></a>
+													</center>
+												</div>
+											</div>
+										</div>
+										<div class="widget-box ui-sortable-handle">
+											<div class="widget-header">
+												<h5 class="widget-title smaller"><i class="ace-icon fa fa-gift"></i>
+												Office Works</h5>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<center>
+														<a target="_blank" href="/finance"><button class="btn btn-inverse myspace"><i class="ace-icon fa fa-gift align-top bigger-125"></i>Manage Finance</button></a>
+														<a target="_blank" href="/users"<button class="btn btn-yellow myspace"><i class="ace-icon fa fa-leaf align-top bigger-125"></i>Manage Users</button></a>
+														<!-- <a target="_blank" href="/day_sales"><button class="btn btn-pink myspace"><i class="ace-icon fa fa-tags align-top bigger-125"></i>All Sales</button></a>
+														<a target="_blank" href="/sales/search"><button class="btn btn-danger myspace"><i class="ace-icon fa fa-search align-top bigger-125"></i>Search Sale</button></a>
+														<a target="_blank" href="/sales/report"><button class="btn btn-pink myspace"><i class="ace-icon fa fa-list align-top bigger-125"></i>Sales Report</button></a> -->
+													</center>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+
+									<!-- <div class="col-xs-12 col-sm-3 widget-container-col ui-sortable">
+
+										<div class="widget-box ui-sortable-handle">
+											<div class="widget-header">
+												<h5 class="widget-title smaller"><i class="ace-icon fa fa-barcode"></i>
+												Barcode</h5>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<center>
+														<a target="_blank" href="/generate_barcode"><button class="btn btn-pink myspace"><i class="ace-icon fa fa-barcode align-top bigger-125"></i>Barcode</button></a>
+														<a target="_blank" href="/barcode/barcode_single"><button class="btn btn-danger myspace"><i class="ace-icon fa fa-barcode align-top bigger-125"></i>Single Barcode</button></a>
+														<a target="_blank" href="/barcode/barcode"><button class="btn btn-pink myspace"><i class="ace-icon fa fa-barcode align-top bigger-125"></i>Barcode Grid</button></a>
+													</center>
+												</div>
+											</div>
+										</div>
+
+									</div> -->
+
+
+
+								<div class="space"></div>
+
+								</div><!-- /.page-content-area -->
+				</div><!-- /.page-content -->
+
+
+		<!-- page specific plugin scripts -->
+
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+			jQuery(function($) {
+
+
+				// scrollables
+				$('.scrollable').each(function () {
+					var $this = $(this);
+					$(this).ace_scroll({
+						size: $this.data('size') || 100,
+						//styleClass: 'scroll-left scroll-margin scroll-thin scroll-dark scroll-light no-track scroll-visible'
+					});
+				});
+				$('.scrollable-horizontal').each(function () {
+					var $this = $(this);
+					$(this).ace_scroll(
+					  {
+						horizontal: true,
+						styleClass: 'scroll-top',//show the scrollbars on top(default is bottom)
+						size: $this.data('size') || 500,
+						mouseWheelLock: true
+					  }
+					).css({'padding-top': 12});
+				});
+
+				$(window).on('resize.scroll_reset', function() {
+					$('.scrollable-horizontal').ace_scroll('reset');
+				});
+
+			    $('.widget-container-col').sortable({
+			        connectWith: '.widget-container-col',
+					items:'> .widget-box',
+					handle: ace.vars['touch'] ? '.widget-header' : false,
+					cancel: '.fullscreen',
+					opacity:0.8,
+					revert:true,
+					forceHelperSize:true,
+					placeholder: 'widget-placeholder',
+					forcePlaceholderSize:true,
+					tolerance:'pointer',
+					start: function(event, ui) {
+						//when an element is moved, it's parent becomes empty with almost zero height.
+						//we set a min-height for it to be large enough so that later we can easily drop elements back onto it
+						ui.item.parent().css({'min-height':ui.item.height()})
+						//ui.sender.css({'min-height':ui.item.height() , 'background-color' : '#F5F5F5'})
+					},
+					update: function(event, ui) {
+						ui.item.parent({'min-height':''})
+						//p.style.removeProperty('background-color');
+					}
+			    });
+
+			});
+		</script>

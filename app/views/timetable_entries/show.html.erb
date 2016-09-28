@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Batch:</strong>
+  <%= @timetable_entry.batch_id %>
+</p>
+
+<%= link_to 'Edit', edit_timetable_entry_path(@timetable_entry) %> |
+<%= link_to 'Back', timetable_entries_path %>

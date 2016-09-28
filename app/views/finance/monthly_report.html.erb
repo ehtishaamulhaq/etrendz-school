@@ -1,0 +1,47 @@
+<div class="box" style="padding-left: 20px;padding-top: 20px;">
+  <%= form_for :report, :url => {:action => 'update_monthly_report'} do |form| %>
+  <div class="row">
+      <div class="col-md-3">
+    <div class="label-field-pair">
+      <label>
+        <%= t('select_start_date') %>:
+      </label>
+      <div class="input-group">
+        <%= form.text_field 'start_date', class: "start_date form-control" %>
+        <span class="input-group-addon">
+        <i class="ace-icon fa fa-calendar bigger-110"></i>
+        </span>
+      </div>
+      </div>
+    </div>
+      <div class="col-md-3">
+    <div class="label-field-pair">
+      <label>
+        <%= t('select_end_date') %>:
+      </label>
+      <div class="input-group">
+        <%= form.text_field 'end_date', class: "end_date form-control" %>
+        <span class="input-group-addon">
+        <i class="ace-icon fa fa-calendar bigger-110"></i>
+        </span>
+      </div>
+      </div>
+    </div><br>
+      <div class="col-md-3">
+    <%= submit_tag " #{t('monthly_report')}",:class=>'btn btn-purple' %>
+    </div>
+    </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $( ".start_date" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false
+  });
+  $( ".end_date" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false
+  });
+</script>

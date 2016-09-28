@@ -1,0 +1,9 @@
+<% if @error.nil? %>
+  <% text = "<p class='alert alert-info'>#{t('flash_msg26')}<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button></p>".html_safe  %>
+  $("#form-errors").html("<%= escape_javascript '' %>")
+  $("#grading-levels").html("<%=escape_javascript render 'grading_levels' %>")
+  $("#flash_box").html("<%= escape_javascript text %>")
+$("#grade-edit-modal").modal("hide")
+<% else %>
+  $("#form-errors").html("<%= escape_javascript render 'errors', :object => @grading_level %>")
+<% end %>

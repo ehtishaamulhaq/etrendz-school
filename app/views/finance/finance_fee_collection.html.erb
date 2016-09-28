@@ -1,0 +1,28 @@
+<div id="page-yield">
+  <div id="flash_box"></div>
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="box">
+    <div id="message"></div>
+    <div class="link-box">
+      <div class="link-heading">
+        <%= link_to "#{t('create_fee_collection')}", :action => 'fee_collection_new' %>
+      </div>
+      <div class="link-descr">
+        <%= t('creates_new_fee_collecting_dates') %>
+      </div>
+    </div>
+    <div class="link-box">
+      <div class="link-heading">
+        <%= link_to "#{t('view')}",:action => "fee_collection_view" %>
+      </div>
+      <div class="link-descr">
+        <%= t('displays_collection_dates') %>
+      </div>
+    </div>
+    <div id="modal-box" style="display:none;overflow:hidden; "></div>
+  </div>
+</div>

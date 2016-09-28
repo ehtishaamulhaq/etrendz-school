@@ -1,0 +1,101 @@
+<div class="available_sections1" id="page-yield">
+  <div class="page1"></div>
+  <div class="section1 row">
+    <center>
+      <div class="hor_line"></div>
+      <div class="extender"></div>
+      <div id="main_info">
+        <h3>
+          <%= @subject.name %>
+        </h3>
+        <h4>
+          <%= @batch.name %>
+          \- #{@batch.course.full_name}
+        </h4>
+      </div>
+      <% c = 'even' %>
+      <table cellspacing="0" id="pdf-table" width="100%">
+        <tr class="table-header">
+          <td class="name">
+            <%= t('name') %>
+          </td>
+          <% @exam_groups.each do |exam_group| %>
+            <td class="marks">
+              <%= exam_group.name %>
+            </td>
+          <% end %>
+        </tr>
+      </table>
+    </center>
+  </div>
+  <% i = 0 %>
+  <% @students.each do |student| %>
+    <% is_valid_subject=1 %>
+    <% unless @subject.elective_group_id.nil? %>
+      <% is_student_elective = StudentsSubject.find_by_student_id_and_subject_id(student.id,@subject.id) %>
+      <% is_valid_subject = 0 if is_student_elective.nil? %>
+    <% end %>
+    <% unless is_valid_subject == 0 %>
+      <div class="section1 row">
+        <center>
+          <table cellspacing="0" id="pdf-table" width="100%">
+            <tr>
+              <td class="name">
+                <%= student.full_name %>
+              </td>
+              <% @exam_groups.each do |exam_group| %>
+                <td class="marks">
+                  <% exam = Exam.find_by_subject_id_and_exam_group_id(@subject.id, exam_group.id) %>
+                  <% exam_score = ExamScore.find_by_student_id_and_exam_id(student.id, exam.id) unless exam.nil? %>
+                  <% unless exam.nil? %>
+                    <% if exam_group.exam_type == 'Marks' %>
+                      <%= exam_score.nil? ? '-' : "#{exam_score.marks || "-"}/"+exam.maximum_marks.to_s %>
+                    <% elsif exam_group.exam_type == 'Grades' %>
+                      <%= exam_score.nil? ? '-' : (exam_score.grading_level || '-') %>
+                    <% else %>
+                      <%= exam_score.nil? ? '-' :  "#{(exam_score.marks || "-")}" +"/"+exam.maximum_marks.to_s+"[#{(exam_score.grading_level || "-")}]" %>
+                    <% end %>
+                  <% else %>
+                    <%= "#{t('n_a')}" %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          </table>
+        </center>
+      </div>
+      <% i+=1 %>
+    <% end %>
+  <% end %>
+  <div class="section1 row">
+    <center>
+      <table cellspacing="0" class="grand_total" id="pdf-table" width="100%" class="table table-striped">
+        <tr>
+          <td class="col-pdf-bold name">
+            <%= t('class_average') %>
+          </td>
+          <% @exam_groups.each do |exam_group| %>
+            <% if exam_group.exam_type == 'Marks' or exam_group.exam_type == 'MarksAndGrades' %>
+              <% exam = Exam.find_by_subject_id_and_exam_group_id(@subject.id, exam_group.id) %>
+              <td class="col-pdf-bold marks">
+                <%= "%.2f"%exam_group.subject_wise_batch_average_marks(@subject.id) unless exam.nil? %>
+              </td>
+            <% else %>
+              <td class="col-pdf-bold marks">-</td>
+            <% end %>
+          <% end %>
+        </tr>
+      </table>
+    </center>
+  </div>
+</div>
+<% if params[:page_height] %>
+  <script>
+    
+    var body = document.body,
+    html = document.documentElement;
+    var pg_height = parseInt(#{params[:page_height]}
+
+
+  </script>
+<% end %>

@@ -1,0 +1,143 @@
+<style>
+#batchs {
+    float: right;
+    height: 243px;
+    width: 460px;
+}
+#batchs .batch_select_box {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    background: #EEEEEE;
+    border: 1px solid #C6C6C6;
+    height: 241px;
+    width: 453px;
+    padding-left: 5px;
+}
+</style>
+<div id="content-header" style="padding-left: 20px;">
+  <%#= image_tag("show_finance.png") %>
+  <h1>
+    <%= t('fees_collection') %>
+  </h1>
+  <h3>
+    <%= t('create_fee_collection') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<!-- <div id="inner-tab-menu">
+  <ul>
+    <li>
+      <%= link_to t('fees_collection'), action: :fee_collection %>
+    </li>
+  </ul>
+</div> -->
+<div id="page-yield" style="padding-left: 20px;">
+  <div id="flash_box"></div>
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="row">
+  <div class="col-md-6">
+  <%= form_for @finance_fee_collection, url: {action: :fee_collection_create} do |form| %>
+    <div id="form-errors">
+      <%#= error_messages_for 'finance_fee_collection' %>
+    </div>
+    <div id="left-side-inputs">
+      <div class="label-field-pair">
+          <%= t('fee_category') %>
+          :
+          <%= form.select(:fee_category_id, @fee_categories.map { |item| [item.name, item.name] }, {selected: @fee_category.present? ? @fee_category.first.name : nil , prompt: t('select_category')}, {onchange: "onChangeRequest(this, '#{url_for(action: :fee_collection_batch_update, id: 'paramid')}')"}) %>
+      </div>
+<br>
+      <div class="label-field-pair">
+          <%= t('fee_collection_name') %>:
+          <%= form.text_field :name %>
+      </div>
+      <br>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <%= form.label :start_date, t('start_date')  %>
+              <div class="input-group">
+                <%= form.text_field :start_date, class: "start_date form-control"  %>
+                <span class="input-group-addon">
+                  <i class="ace-icon fa fa-calendar bigger-110"></i>
+                </span>
+              </div>
+      </div>
+      </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <%= form.label :end_date, t('end_date')  %>
+              <div class="input-group">
+                <%= form.text_field :end_date, class: "end_date form-control"  %>
+                <span class="input-group-addon">
+                  <i class="ace-icon fa fa-calendar bigger-110"></i>
+                </span>
+              </div>
+      </div>
+      </div>
+    <div class="row">
+<div class="col-sm-6">
+        <%= form.label :due_date, t('due_date')  %>
+              <div class="input-group">
+                <%= form.text_field :due_date, class: "due_date form-control"  %>
+                <span class="input-group-addon">
+                  <i class="ace-icon fa fa-calendar bigger-110"></i>
+                </span>
+              </div>
+      </div>
+      </div>
+      <br><br>
+      <!-- <div class="label-field-pair">
+
+          <%= t('end_date') %>
+          <%= date_select 'finance_fee_collection[end_date]',I18n.l(@finance_fee_collection.end_date || Date.today,:format=>:default), :popup=>"force" %>
+
+      </div>
+      <br>
+      <div class="label-field-pair">
+          <%= t('due_date') %>
+          <%= date_select 'finance_fee_collection[due_date]', I18n.l(@finance_fee_collection.due_date || Date.today,:format=>:default), :popup=>"force" %>
+      </div> -->
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div id="batchs">
+      <% unless params[:fee_collection].nil? %>
+        <%= render :partial=>'fee_collection_batchs' if params[:fee_collection][:category_ids].present? %>
+      <% end %>
+    </div>
+    </div>
+    </div>
+    <div class="extender"></div>
+    <div id="submit-button">
+      <%= submit_tag " #{t('create_text')}",:class=>'btn btn-pink btn-sm' %>
+    </div>
+  <% end %>
+</div>
+<script>
+  
+  $( ".start_date" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false,
+    //isRTL:true,
+  });
+  $( ".end_date" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false,
+    //isRTL:true,
+  });
+  $( ".due_date" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false,
+    //isRTL:true,
+  });
+</script>

@@ -1,0 +1,149 @@
+<style>
+  .categories {
+    height: 265px;
+    width: 458px;
+    overflow: auto;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    background: #EEEEEE;
+    border: 1px solid #C6C6C6;
+}
+#right-side-inputs {
+    float: right;
+    width: 460px;
+    height: 243px;
+}
+</style>
+<div id="content-header">
+  <%#= image_tag("show_finance.png") %>
+<!--   <h1>
+    <%#= t('fees_collection') %>
+  </h1> -->
+  <h3>
+    <%= t('create_particular_for_master_fee') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<!-- <div id="inner-tab-menu">
+  <ul>
+    <li>
+      <%= link_to t('master_fees'), action: :master_fees %>
+    </li>
+  </ul>
+</div> -->
+<div id="page-yield" style="padding-left:20px;">
+  <div id="flash_box"></div>
+  <% unless flash[:notice].blank? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div id="grading-levels-form">
+    <%= form_for :finance_fee_particular, url: { action: :fees_particulars_create }  do |f| %>
+      <div id="form-errors">
+        <%= error_messages_for 'finance_fee_particular' %>
+      </div>
+      <div id="form-errors"></div>
+      <div id="right-side-inputs">
+        <div class="label-field-pair category_list">
+          <div class="label-container">
+            <label>
+              <%= t('select_a_category') %>
+              :
+              <b class="sel-list">
+              <div class="btn btn-xs btn-white">
+                <%= select_all('each_category') %>
+                </div>
+              <div class="btn btn-xs btn-white">                
+                <%= select_none('each_category') %>
+                </div>
+              </b>
+            </label>
+          </div>
+          <div class="categories">
+            <% @fees_categories.each do |c| %>
+              <div class="each_category" style="padding-left:10px;">
+                <%= check_box_tag "finance_fee_particular[finance_fee_category_ids][]", c.id, false, class: :category_select %>
+                <label>
+                  <%= "#{c.name} - #{c.batch.full_name}" %>
+                </label>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div id="left-side-inputs">
+        <div class="row">
+        <div class="label-field-pair">
+        <div class="col-sm-3">
+          <div class="label-container">
+            <%= f.label t('name') %>
+          </div>
+          </div>
+          <div class="col-sm-3">
+          <div class="input-container">
+            <%= f.text_field :name %>
+          </div>
+          </div>
+          </div><br><br><br>
+        <div class="label-field-pair">
+        <div class="col-sm-3">
+          <div class="label-container">
+            <%= f.label t('description') %>
+          </div>
+          </div>
+          <div class="col-sm-3">
+          <div class="input-container">
+            <%= f.text_field :description %>
+          </div>
+          </div>
+          </div><br><br><br>
+        <div class="label-field-pair2">
+        <div class="col-sm-3">
+          <div class="label-container2">
+            <label>
+              <%= t('create_using') %>
+            </label>
+          </div>
+          </div>
+          <div class="col-sm-3">
+          <div class="input-container2">
+            <div class="opt">
+              <%= radio_button("particulars","select","all", { checked: true, onchange: "onChangeRequest(this, '#{url_for(action: :student_or_student_category, select_value: 'paramid')}')"}) %>
+              <%= t('all') %>
+            </div>
+            <div class="opt">
+              <%= radio_button("particulars","select","student", { onchange: "onChangeRequest(this, '#{url_for(action: :student_or_student_category, select_value: 'paramid')}')" }) %>
+              <%= t('admission_no') %>
+            </div>
+            <div class="opt">
+              <%= radio_button("particulars","select","category", { onchange: "onChangeRequest(this, '#{url_for(action: :student_or_student_category, select_value: 'paramid' )}')" }) %>
+              <%= t('student_category') %>
+            </div><br>
+          </div>
+          </div>
+        </div>
+        <div id="student"></div>
+        <div class="label-field-pair">
+        <div class="col-sm-3">
+          <div class="label-container">
+            <%= f.label t('amount') %>
+          </div>
+          </div>
+          <div class="col-sm-3">
+          <div class="input-container">
+            <%= f.text_field :amount %>
+          </div>
+          </div>
+        </div>
+        </div>
+      </div><br>
+      <%= submit_tag " #{t('create_text')}", class: "btn btn-primary"  %>
+    <% end %>
+  </div>
+</div>

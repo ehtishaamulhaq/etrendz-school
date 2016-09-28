@@ -1,0 +1,55 @@
+<%#= javascript_include_tag :application %>
+<%= csrf_meta_tag %>
+<%#= stylesheet_link_tag("grading_levels/index.css") %>
+<div id="content-header" style="padding-left: 20px;">
+  <%#= image_tag("examination/show_exam.png") %>
+  <h1>
+    <%= t('exams_text') %>
+  </h1>
+  <h3>
+    <%= t('grading_levels_text') %>
+  </h3>
+  <div id="app-back-button">
+    <%#= back_button %>
+  </div>
+</div>
+<div id="inner-tab-menu">
+  <% if permitted_to? :index, :course %>
+    <ul>
+      <li>
+        <%= link_to t('course_text'), courses_path %>
+      </li>
+    </ul>
+  <% end %>
+</div>
+<div id="page-yield" style="padding-left: 20px;">
+  <div id="flash_box"></div>
+  <% unless flash[:notice].nil? %>
+    <p class="alert alert-info">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="box">
+    <div class="label-field-pair">
+      <label for="student_course">
+        <%= t('batch') %>
+        <%= image_tag("loader.gif", :align => "absmiddle", :border => 0, :id => "loader", :style =>"display: none;" ) %>
+      </label>
+      <div class="text-input-bg">
+        <%= select :batch, :id, @batches.active.map {|b| [b.full_name, b.id]}, { prompt: t('common')}, { onChange: "onChangeRequest(this, '#{url_for(action: :show_level, batch_id: 'paramid')}')"} %>
+      </div><br>
+    </div>
+    <div id="grading-levels">
+      <%= render :partial => "grading_levels" %>
+    </div>
+    <div id="modal-box" style="display:none;"></div>
+
+
+<div id="grade-edit-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-grade-edit-modal" class="modal-content"></div>
+  </div>
+</div>
+
+  </div>
+</div>

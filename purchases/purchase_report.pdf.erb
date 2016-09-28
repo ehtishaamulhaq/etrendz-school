@@ -1,0 +1,65 @@
+	<h3><%= params[:report_type][0..1] %> Purchase Report From <%= @from.strftime('%d %b, %Y') %> - <%= @to.strftime('%d %b, %Y') %></h3>
+
+<table class='table'>
+  <tr style = 'background:#cccccc;color:#000'>
+    <th>Date</th>
+    <th>Supplier</th>
+    <th>Invoice</th>
+    <th>Paid</th>
+    <th>Product</th>
+    <th>Qty</th>
+    <th style="text-align:right">Price</th>
+    <th style="text-align:right">Amount</th>
+  </tr>
+
+  <% 
+  @purchases.each do |purchase| 
+  total_sum = 0 
+  %>
+  <tr style='background-color:#eeeeee'>
+    <td><%= purchase.purchase_date.strftime('%d %b') %></td>
+    <td><%= purchase.supplier.name if purchase.supplier %></td>
+    <td><%= purchase.invoice %></td>
+    <td><%= purchase.paid ? "Yes" : "No" %></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+  </tr>
+	
+	<% purchase.purchase_products.each do |pp| %>
+	<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+    <td><%= pp.product.name %></td>
+    <td><%= pp.qty %></td>
+	<% sum = pp.cprice * pp.qty
+		
+		total_sum += sum %>
+    <td style="text-align:right"><%= pp.cprice.round(2) %></td>
+    <td style="text-align:right"><%= sum.round(2) %></td>
+	</tr>
+	<% end %>
+<tr style="font-weight:bold;color:#431E29">
+<td>Total</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><%= purchase.purchase_products.sum(:qty) %></td>
+<td></td>
+<%@total_purchase += total_sum %>
+<td style="text-align:right"><%= total_sum.round(2) %></td>
+</tr>
+<% end %>
+</table>
+
+	<% if (params[:report_type] == "ALL") %>
+		<h3 class='btn btn-pink' style='font-size:20px;'>Total Purchase (CB): Rs. <%= @total_cb_purchase.round(2) if @total_cb_purchase %> </h3><br>
+		<h3 class='btn btn-inverse' style='font-size:20px;'>Total Purchase (CD) : Rs. <%= @total_cd_purchase.round(2) if @total_cd_purchase %> </h3><br>
+	<% end %>
+	<h2 class='btn btn-pink' style='font-size:20px;'>Total Purchase <%="#{('(' + params[:report_type]+ ')') if (params[:report_type] != 'CBP')}"%>: Rs. <%= @total_purchase.round(2) if @total_purchase %> </h2>
+<br />
+

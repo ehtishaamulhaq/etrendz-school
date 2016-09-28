@@ -1,0 +1,61 @@
+ <% if @academic_days > 0 %>
+    <%= form_for :filter, :url => {:action=> 'filter'} do |f| %>
+    <% f.hidden_field :batch , :value=> @batch.id %>
+    <% f.hidden_field :start_date , :value=> @start_date %>
+    <% f.hidden_field :end_date , :value=> @end_date %>
+    <% f.hidden_field  :report_type, :value=>@mode %>
+      <% unless params[:subject_id].nil? %>
+        <%  f.hidden_field :subject , :value=> params[:subject_id] %>
+      <% end %>
+        <div class="#">
+          <label>Filter:</label>
+          <div class="text-input-bg1 inline"><%= f.select :range, [[t('below'),"Below"], [t('above'),"Above"], [t('equals'),"Equals"]] %></div>
+          <div class="text-input-bg1 inline"><%= f.text_field :value %></div>
+      <%= submit_tag t('filter'),:class=>'btn btn-pink btn-sm pull-right' %>
+      <% end %>
+        <div class="label-field-pair">
+          <label>
+            <% if @config.config_value == 'Daily' %>
+              <% "#{t('total_no_of_wrkng_days')} = " + @academic_days.to_s %>
+           <% else %>
+             <% "#{t('total_no_of_wrkng_hours')}= " + @academic_days.to_s %>
+            <% end %>
+          </label>
+        </div>
+        <table class="table table-striped">
+          <tr>
+            <td>
+              Name
+            </td>
+            <td>
+              Total
+            </td>
+            <td>
+              Percentage
+            </td>
+          </tr>
+
+          <% @students.each do |student| %>
+            <tr>
+              <td> <%= student.full_name  %></td>
+              <td><%= @leaves[student.id]['total'] %></td>
+              <td> <%= @leaves[student.id]['percent'].round(2) unless @leaves[student.id]['percent'].nil? %></td>
+            </tr>
+          <% end %>
+      </table>
+       <%= form_for :filter, :url => {:action=> 'report_pdf', :page_height=>1150},:html=>{:target => '_blank'} do |f| %>
+         <% f.hidden_field :batch , :value=> @batch.id %>
+          <% f.hidden_field :start_date , :value=> @start_date %>
+          <% f.hidden_field :end_date , :value=> @end_date %>
+          <% f.hidden_field :report_type , :value=> @mode %>
+          <% unless params[:subject_id].nil? %>
+            <% f.hidden_field :subject , :value=> params[:subject_id] %>
+          <% end %>
+          <% submit_tag "#{t('pdf_report')}" ,:class=>'submit_button2' %>
+      </div>
+      <% end %>
+    <% else %>
+      <div class="label-field-pair2">
+        t('no_reports')
+      </div>
+  <% end %>

@@ -1,0 +1,49 @@
+<div id="content-header">
+  <%= image_tag("examination/show_exam.png") %>
+  <h1>
+    <%= t('archived_exams') %>
+  </h1>
+  <h3>
+    <%= t('grouped_exam_reports') %>
+  </h3>
+  <div id="app-back-button">
+    <%= back_button %>
+  </div>
+</div>
+<div id="inner-tab-menu"></div>
+<div id="page-yield">
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <h4 align="center">
+    <%= @batch.name %>
+    \- #{@batch.course.full_name}
+  </h4>
+  <div id="student_list">
+    <%= render  :partial=>"student_list" %>
+  </div>
+  <div id="grouped_exam_report">
+    <%= render :partial=>'grouped_exam_report' %>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+
+
+  $('.student-link').on( "click", function() {
+    my_id = $( this ).attr('id');
+    $('.active-link').removeClass('active-link');
+    $( this ).addClass('active-link');
+
+
+    $.get('/exam_reports/archived_batches_exam_report?student=' + my_id + '&type=<%= @type %>' + '&batch_id=<%= @batch.id %>' , function(mydata){
+      $('.box').html(mydata);
+    });
+
+
+  });
+});
+</script>

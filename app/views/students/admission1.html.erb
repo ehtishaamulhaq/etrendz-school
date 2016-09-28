@@ -1,0 +1,211 @@
+<div class="page-content">
+
+  <% if @config == '0' %>
+    <% if @last_admitted_student.nil? %>
+      <p class="flash-msg"><%= t('no_admission_notice') %></p>
+    <% else %>
+      <p class="flash-msg"><%= t('admission_no_of_last_stud') %> <%= @last_admitted_student.admission_no %> </p>
+    <% end %>
+  <% end %>
+
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg"> <%= flash[:notice] %> </p>
+  <% end %>
+
+  <div class="page-header">
+    <h1>
+      Admission
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Step 1 - Student details
+      </small>
+    </h1>
+  </div><!-- /.page-header -->
+
+  <div class="row">
+    <div class="col-xs-12">
+      <%= form_for(@student, :url => {:action=> 'admission1'}, :html=> {:multipart=>true, :class => "form-horizontal"}) do |f| %>
+      <% if @student.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
+
+          <ul>
+          <% @student.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="form-group">
+        <%= f.label :admission_no,'Admission No', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-2">
+         <% unless @config == '0' or @last_admitted_student.nil? %>
+              <%= f.text_field :admission_no , value: @last_admitted_student.admission_no.next, class: 'col-sm-12' %>
+            <% else %>
+              <%= f.text_field :admission_no, class: 'col-sm-12', placeholder: 'Admission No' %>
+            <% end %>
+
+        </div>
+        <%= f.label :admission_date,'Admission Date', class: 'col-sm-1' %>
+        <div class="col-sm-2">
+          <%= f.text_field :admission_date, class: 'admission_date col-sm-12', placeholder: 'Admission Date', value: Date.today %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+        <div class="form-group">
+        <%= f.label :first_name,'Full Name', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.text_field :first_name, class: 'col-xs-10 col-sm-5', placeholder: 'Full Name' %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+        <div class="form-group">
+        <%= f.label :batch_id,'Course & Batch', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.collection_select :batch_id, Batch.active, :id, :full_name %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+        <div class="form-group">
+        <%= f.label :date_of_birth,'Date of Birth', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.text_field :date_of_birth, class: "date_of_birth col-xs-10 col-sm-5", value: Date.today-4.years %>
+        </div>
+      </div>
+
+        <div class="form-group">
+        <label class='col-sm-3 control-label no-padding-right' for="genter">Gender</label>
+          <div class="col-sm-9">
+            <label class="radio-inline">
+                  <%= f.radio_button :gender, 'm', :checked => "checked" %>
+              Male
+            </label>
+            <label class="radio-inline">
+                  <%= f.radio_button :gender, 'f' %>
+              Female
+            </label>
+          </div>
+      </div>
+
+        <div class="form-group">
+        <%= f.label :blood_group,'Blood Group', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.select :blood_group, ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],{:prompt=> "#{('unknown')}"} %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+         <div class="form-group">
+        <%= f.label :nationality,'Nationality', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.select :nationality, ["INDIA", "OTHER"] %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+         <!-- <div class="form-group">
+        <%#= f.label :student_category,'Student Category', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%#= f.select :student_category, ["unknown"] %>
+        </div>
+      </div>
+        <div class="space-4"></div> -->
+
+         <div class="form-group">
+        <%= f.label :religion,'Religion', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.select :religion, ["ISLAM", "HINDU", "CHRISTIAN", "OTHER"] %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+         <div class="form-group">
+        <%= f.label :address_line1,'Address', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.text_field :address_line1, class: 'col-xs-10 col-sm-5', placeholder: 'Address' %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+<div class="form-group">
+        <%= f.label :city,'City', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.text_field :city, class: 'col-xs-10 col-sm-5', placeholder: 'City' %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+      <div class="form-group">
+        <%= f.label :state,'State', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.text_field :state, class: 'col-xs-10 col-sm-5', placeholder: 'State' %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+      <div class="form-group">
+        <%= f.label :pin_code,'Pincode', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.text_field :pin_code, class: 'col-xs-10 col-sm-5', placeholder: 'Pincode' %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+         <div class="form-group">
+        <%= f.label :country,'Country', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.select :country, ["INDIA"] %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+         <div class="form-group">
+        <%= f.label :phone1,'Phone', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.text_field :phone1, class: 'col-xs-10 col-sm-5', placeholder: 'Phone' %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+         <div class="form-group">
+        <%= f.label :phone2,'Mobile', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.text_field :phone2, class: 'col-xs-10 col-sm-5', placeholder: 'Mobile' %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+         <div class="form-group">
+        <%= f.label :email,'Email', class: 'col-sm-3 control-label no-padding-right' %>
+        <div class="col-sm-9">
+          <%= f.text_field :email, class: 'col-xs-10 col-sm-5', placeholder: 'Email' %>
+        </div>
+      </div>
+        <div class="space-4"></div>
+
+
+      <div class="actions">
+        <%= f.submit :class => "btn btn-primary" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script>
+  
+  $( ".admission_date" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false
+    //isRTL:true,
+  });
+  $( ".date_of_birth" ).datepicker({
+    dateFormat: 'yy-mm-dd',
+    showOtherMonths: true,
+    selectOtherMonths: false
+    //isRTL:true,
+  });
+  </script>
