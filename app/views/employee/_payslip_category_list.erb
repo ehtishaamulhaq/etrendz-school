@@ -1,0 +1,9 @@
+<%#= javascript_include_tag :application %>
+<div id="list-payslip-category">
+  <%= render :partial=>"list_payslip_category" %>
+</div>
+<div class="extender"></div>
+<div id="add-payslip-category-link">
+  <%= link_to " #{t('add_new_category')}", {:action => "add_payslip_category", :emp_id => emp_id, :salary_date => @salary_date, :html => {:class => 'user_button'}}, :remote => true %>
+</div>
+<div id="payslip-category-form"></div>
