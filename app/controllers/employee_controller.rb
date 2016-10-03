@@ -22,6 +22,9 @@ class EmployeeController < ApplicationController
   before_filter :protect_other_employee_data, only: [:individual_payslip_pdf,:timetable,:timetable_pdf,:profile_payroll_details, :view_payslip ]
   before_filter :limit_employee_profile_access , only: [:profile,:profile_pdf]
 
+  def payslip  
+  end
+  
   def add_category
     @categories = EmployeeCategory.where(status: true).order(name: :asc)
     @inactive_categories = EmployeeCategory.where(status: false)
@@ -873,6 +876,8 @@ class EmployeeController < ApplicationController
     @individual = IndividualPayslipCategory.where('employee_id = ? and salary_date = ? ', @employee.id,Date.today)
     @user = current_user
     if request.post?
+      p "=========checking params============"
+      # p params.
       salary_date = Date.civil(*params[:salarydate].sort.map(&:last).map(&:to_i))
       unless salary_date.to_date < @employee.joining_date.to_date
         start_date = salary_date - ((salary_date.day - 1).days)
@@ -1859,5 +1864,9 @@ class EmployeeController < ApplicationController
       else
         {}
       end
+    end
+
+    def manage_payroll_params
+      params.require(:manage_payroll).permit(:salarydate, :id)
     end
 end

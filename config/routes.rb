@@ -833,6 +833,7 @@ Rails.application.routes.draw do
         get :list_batches
       end
       member do
+        # post :previous_data_create
         get :profile
         get :profile_pdf
         get :reports

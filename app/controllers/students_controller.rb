@@ -76,7 +76,7 @@ class StudentsController < ApplicationController
   end
 
   def admission1
-    @student = Student.new(params[:student])
+    @student = Student.new(student_params)
  #   @selected_value = Setting.default_country
  #   @application_sms_enabled = SmsSetting.find_by_settings_key("ApplicationEnabled")
     @last_admitted_student = Student.last
@@ -116,15 +116,28 @@ class StudentsController < ApplicationController
 
 
   def previous_data
-    @previous_data = StudentPreviousData.new
+    @student = Student.find(params[:id])
+    @previous_data = StudentPreviousData.new(student_previous_data_params)
+    @previous_subject = StudentPreviousSubjectMark.where(student_id: @student.id)
+    if request.post?
+      @previous_data.save
+      redirect_to :action => "admission4", :id => @student.id
+    else
+      return
+    end
   end
 
-  def previous_data_create
-    @previous_data = StudentPreviousData.new(student_previous_data_params)
-    @previous_subject = StudentPreviousSubjectMark.find_all_by_student_id(@student)
-    @previous_data.save
-    redirect_to @student
-  end
+  # def previous_data
+  #   @previous_data = StudentPreviousData.new
+  # end
+
+  # def previous_data_create
+  #   @student = Student.find(params[:id])
+  #   @previous_data = StudentPreviousData.new(student_previous_data_params)
+  #   @previous_subject = StudentPreviousSubjectMark.where(student_id: @student.id)
+  #   @previous_data.save
+  #   redirect_to @student
+  # end
 
   def previous_subject
     @student = Student.find(params[:id])
@@ -206,11 +219,11 @@ class StudentsController < ApplicationController
     end
 
 
-  # private
+  private
 
-  #   def student_params
-  #     params.require(:student).permit(:admission_no, :admission_date, :first_name, :middle_name, :last_name, :batch_id, :date_of_birth, :gender, :blood_group, :birth_place, :nationality_id, :language, :student_category_id, :religion, :address_line1, :address_line2, :city, :state, :pin_code, :country_id, :phone1, :phone2, :email, :photo)
-  #   end
+    def student_params
+      params.require(:student).permit(:admission_no, :admission_date, :first_name, :middle_name, :last_name, :batch_id, :date_of_birth, :gender, :blood_group, :birth_place, :nationality_id, :language, :student_category_id, :religion, :address_line1, :address_line2, :city, :state, :pin_code, :country_id, :phone1, :phone2, :email, :photo)
+    end
 
     def find_student
       @student = Student.find params[:id]
